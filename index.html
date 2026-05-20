@@ -2,34 +2,36 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>AgroCol | Sistema Administrativo</title>
+    <title>AgroCol | Acceso Seguro</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div id="login-screen" class="full-screen">
-        <div class="login-box">
-            <h2>AgroCol S.A.S.</h2>
-            <input type="text" id="user" placeholder="Usuario">
-            <input type="password" id="pass" placeholder="Contraseña">
-            <button onclick="auth()">Iniciar Sesión</button>
-            <p id="error-msg" class="error"></p>
+    <div id="auth-container">
+        <div id="login-view" class="card">
+            <h2>Iniciar Sesión</h2>
+            <input type="text" id="l-user" placeholder="Usuario o Correo">
+            <input type="password" id="l-pass" placeholder="Contraseña">
+            <button onclick="login()">Ingresar</button>
+            <p onclick="toggleView()">¿No tienes cuenta? Regístrate</p>
+        </div>
+
+        <div id="register-view" class="card hidden">
+            <h2>Registro AgroCol</h2>
+            <input type="text" id="r-nombre" placeholder="Nombre Completo">
+            <input type="text" id="r-user" placeholder="Usuario">
+            <input type="email" id="r-mail" placeholder="Correo">
+            <input type="password" id="r-pass" placeholder="Contraseña (6+ caracteres)">
+            <input type="password" id="r-pass2" placeholder="Confirmar contraseña">
+            <button onclick="register()">Crear Cuenta</button>
+            <p onclick="toggleView()">¿Ya tienes cuenta? Inicia Sesión</p>
         </div>
     </div>
 
-    <div id="app-screen" class="hidden">
-        <aside class="sidebar">
-            <h2 class="brand">AgroCol</h2>
-            <nav>
-                <a onclick="show('dashboard')"><i class="fas fa-home"></i> Dashboard</a>
-                <a onclick="show('inventario')"><i class="fas fa-box"></i> Inventario</a>
-                <a onclick="show('movimientos')"><i class="fas fa-exchange-alt"></i> Movimientos</a>
-                <a onclick="show('reportes')"><i class="fas fa-chart-line"></i> Reportes</a>
-                <a onclick="logout()" class="logout"><i class="fas fa-sign-out-alt"></i> Salir</a>
-            </nav>
-        </aside>
-        <main id="main-content"></main>
+    <div id="app-view" class="hidden">
+        <nav><h2>AgroCol S.A.S</h2> <button onclick="logout()">Cerrar Sesión</button></nav>
+        <main><h1>Bienvenido al Dashboard</h1><p id="user-display"></p></main>
     </div>
+
     <script src="app.js"></script>
 </body>
 </html>

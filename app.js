@@ -1,38 +1,63 @@
-const users = { admin: "1234", ventas: "1234", produccion: "1234" };
-let inventory = JSON.parse(localStorage.getItem('agrocol_db')) || [];
+const SESSION_DURATION = 20 * 60 * 1000; // 20 minutos en ms
 
-function auth() {
-    const u = document.getElementById('user').value;
-    const p = document.getElementById('pass').value;
-    if (users[u] === p) {
-        document.getElementById('login-screen').classList.add('hidden');
-        document.getElementById('app-screen').classList.remove('hidden');
-        show('dashboard');
-    } else { document.getElementById('error-msg').innerText = "Credenciales incorrectas"; }
+// Validar sesión al cargar
+window.onload = () => {
+    const session = JSON.parse(localStorage.getItem('session_agrocol'));
+    if (session) {
+        if (Date.now() - session.startTime < SESSION_DURATION) {
+            showApp(session.user);
+        } else {
+            logout("Tu sesión expiró por seguridad");
+        }
+    }
+};
+
+function register() {
+    const user = document.getElementById('r-user').value;
+    const pass = document.getElementById('r-pass').value;
+    const pass2 = document.getElementById('r-pass2').value;
+
+    if (pass !== pass2 || pass.length < 6) return alert("Error en contraseña");
+    
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    if (users.find(u => u.user === user)) return alert("Usuario ya existe");
+
+    users.push({ user, pass });
+    localStorage.setItem('users', JSON.stringify(users));
+    alert("Usuario registrado");
+    toggleView();
 }
 
-function show(section) {
-    const main = document.getElementById('main-content');
-    if(section === 'dashboard') {
-        main.innerHTML = `<h1>Dashboard</h1>
-            <div class="card"><h3>Total Productos: ${inventory.length}</h3></div>
-            <div class="card"><h3>Alertas Stock Bajo: ${inventory.filter(i => i.cantidad < 10).length}</h3></div>`;
-    } else if(section === 'inventario') {
-        main.innerHTML = `<h1>Inventario</h1>
-            <input type="text" id="newProd" placeholder="Nombre Producto">
-            <input type="number" id="newCant" placeholder="Cantidad">
-            <button onclick="addProduct()">Guardar</button>
-            <table>${inventory.map(i => `<tr><td>${i.nombre}</td><td class="${i.cantidad < 10 ? 'warning' : ''}">${i.cantidad}</td></tr>`).join('')}</table>`;
+function login() {
+    const u = document.getElementById('l-user').value;
+    const p = document.getElementById('l-pass').value;
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const userFound = users.find(usr => usr.user === u && usr.pass === p);
+
+    if (userFound) {
+        localStorage.setItem('session_agrocol', JSON.stringify({
+            user: u,
+            startTime: Date.now()
+        }));
+        showApp(u);
+    } else {
+        alert("Credenciales inválidas");
     }
 }
 
-function addProduct() {
-    const nombre = document.getElementById('newProd').value;
-    const cantidad = parseInt(document.getElementById('newCant').value);
-    if(!nombre || isNaN(cantidad)) return alert("Completa los campos");
-    inventory.push({nombre, cantidad});
-    localStorage.setItem('agrocol_db', JSON.stringify(inventory));
-    show('inventario');
+function showApp(user) {
+    document.getElementById('auth-container').classList.add('hidden');
+    document.getElementById('app-view').classList.remove('hidden');
+    document.getElementById('user-display').innerText = `Usuario: ${user}`;
 }
 
-function logout() { location.reload(); }
+function logout(msg = "") {
+    localStorage.removeItem('session_agrocol');
+    if (msg) alert(msg);
+    location.reload();
+}
+
+function toggleView() {
+    document.getElementById('login-view').classList.toggle('hidden');
+    document.getElementById('register-view').classList.toggle('hidden');
+}
