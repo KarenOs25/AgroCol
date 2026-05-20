@@ -1,16 +1,8 @@
-:root { --primary: #2e7d32; --bg: #f4f7f6; --text: #333; }
-* { box-sizing: border-box; }
-body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; }
-.sidebar { width: 250px; height: 100vh; background: #1b5e20; color: white; position: fixed; }
-.card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-.stats-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 20px; }
-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-th { background: var(--primary); color: white; padding: 12px; }
-/* Estilo para la alerta de stock bajo */
-.alert-row {
-    background-color: #fff9c4 !important; /* Amarillo suave */
-    color: #fbc02d;
-    font-weight: bold;
-    padding: 5px;
-    border-radius: 4px;
-}
+body { font-family: sans-serif; margin: 0; background: #f4f7f6; }
+.navbar { background: #1b5e20; color: white; padding: 10px 20px; }
+.sidebar { width: 200px; height: 100vh; background: #2e7d32; color: white; float: left; padding: 20px; }
+.sidebar a { display: block; padding: 10px; color: white; cursor: pointer; }
+main { margin-left: 220px; padding: 20px; }
+table { width: 100%; border-collapse: collapse; background: white; }
+th, td { padding: 12px; border: 1px solid #ddd; }
+.alert-row { background-color: #fff9c4 !important; color: #fbc02d; font-weight: bold; }
