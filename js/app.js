@@ -1,23 +1,38 @@
 const App = {
     renderDashboard() {
-        const prods = Storage.get('products');
-        const lowStock = prods.filter(p => p.cantidad < 10);
+        // Obtenemos los productos
+        const prods = Storage.get('products'); 
         
-        let html = `<h1>Dashboard AgroCol</h1>`;
-        
-        if(lowStock.length > 0) {
-            html += `<div class="alert-low-stock">⚠️ ALERTA: ${lowStock.map(p=>p.nombre).join(', ')} tienen bajo stock.</div>`;
-        }
-        
-        html += `<div class="card">
-            <h2>Inventario en Tiempo Real</h2>
-            <table id="table">
-                <thead><tr><th>Producto</th><th>Cantidad</th><th>Acción</th></tr></thead>
-                <tbody>${prods.map((p, i) => `<tr><td>${p.nombre}</td><td>${p.cantidad}</td>
-                <td><button class="btn btn-danger" onclick="App.delete(${i})">Eliminar</button></td></tr>`).join('')}</tbody>
-            </table>
-        </div>`;
-        document.getElementById('main-content').innerHTML = html;
+        document.getElementById('main-content').innerHTML = `
+            <div class="table-container">
+                <h2>Inventario de Productos</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Descripción</th>
+                            <th>Cant (Kg)</th>
+                            <th>Cant (Und)</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${prods.map((p, i) => `
+                            <tr>
+                                <td>${p.id || i+1}</td>
+                                <td>${p.descripcion}</td>
+                                <td>${p.kg}</td>
+                                <td>${p.und}</td>
+                                <td>
+                                    <button class="btn-action btn-edit">Editar</button>
+                                    <button class="btn-action btn-delete" onclick="App.delete(${i})">Eliminar</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
     },
     delete(i) {
         let p = Storage.get('products');
