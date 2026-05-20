@@ -25,8 +25,14 @@ const Auth = {
     },
 
     validate() {
-        // Esta función protege las páginas privadas
-        if (!sessionStorage.getItem('isLogged')) {
+        // Obtenemos la ruta actual para saber dónde estamos
+        const path = window.location.pathname;
+        
+        // Páginas públicas donde NO necesitamos validar sesión
+        const esPublico = path.includes('login.html') || path.includes('register.html');
+        
+        // Si la página NO es pública y NO hay sesión iniciada, enviamos al login
+        if (!esPublico && !sessionStorage.getItem('isLogged')) {
             window.location.href = 'login.html';
         }
     }

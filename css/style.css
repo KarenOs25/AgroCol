@@ -41,3 +41,9 @@ main { flex-grow: 1; padding: 30px; }
     border-radius: 5px;
     cursor: pointer;
 }
+.content-box { padding: 20px; }
+.input-group { margin-bottom: 20px; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+table, th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+th { background-color: #2e7d32; color: white; }
+button { padding: 8px 15px; cursor: pointer; background: #2e7d32; color: white; border: none; border-radius: 4px; }
