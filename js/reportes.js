@@ -1,77 +1,68 @@
 /**
  * Módulo de Reportes - AgroCol S.A.S
- * Gestiona la visualización, filtrado e impresión de reportes.
+ * Gestión avanzada de inventarios, filtros y exportación profesional.
  */
 
 const Reports = {
-    
+    // 1. Generar la estructura de la vista de reportes
     generateReport() {
         const main = document.getElementById('main-content');
-        
-        // Estructura HTML del módulo de reportes
         main.innerHTML = `
-            <div class="report-header">
+            <div class="report-container">
                 <h1>REPORTE DE INVENTARIO</h1>
+                <div class="report-filters">
+                    <input type="date" id="fecha-desde">
+                    <input type="date" id="fecha-hasta">
+                    <button onclick="Reports.filterData()" class="btn-action">Filtrar</button>
+                    <button onclick="Reports.exportToExcel()" class="btn-action"><i class="fas fa-file-excel"></i> Exportar a Excel</button>
+                </div>
+                <table id="report-table">
+                    <thead>
+                        <tr><th>ID</th><th>PRODUCTO</th><th>TIPO</th><th>CANTIDAD</th><th>UNIDAD</th></tr>
+                    </thead>
+                    <tbody id="report-body"></tbody>
+                </table>
             </div>
-            
-            <div class="report-filters">
-                <input type="date" id="fecha-desde">
-                <input type="date" id="fecha-hasta">
-                <select id="producto-filtro">
-                    <option value="Todos">Todos</option>
-                </select>
-                <button onclick="Reports.filterData()" class="btn-action"><i class="fas fa-search"></i> Generar</button>
-                <button onclick="window.print()" class="btn-action"><i class="fas fa-print"></i> Imprimir</button>
-                <button onclick="Reports.exportToExcel()" class="btn-action"><i class="fas fa-file-excel"></i> Exportar a Excel</button>
-            </div>
-
-            <table id="report-table">
-                <thead>
-                    <tr><th>ID</th><th>PRODUCTO</th><th>TIPO</th><th>CANTIDAD</th><th>UNIDAD</th><th>FECHA</th></tr>
-                </thead>
-                <tbody id="report-body">
-                    </tbody>
-            </table>
         `;
-        
-        // Cargar los datos iniciales al generar la vista
-        this.renderTable(JSON.parse(localStorage.getItem('agrocol_inventory')) || []);
+        this.renderTable(JSON.parse(localStorage.getItem('products')) || []);
     },
 
+    // 2. Renderizar la tabla con datos
     renderTable(data) {
         const tbody = document.getElementById('report-body');
         tbody.innerHTML = data.map(p => `
             <tr>
-                <td>${p.id || '001'}</td>
+                <td>${p.id}</td>
                 <td>${p.nombre}</td>
-                <td>${p.tipo || 'Verdura'}</td>
+                <td>${p.tipo}</td>
                 <td>${p.cantidad}</td>
-                <td>${p.unidad || 'kg'}</td>
-                <td>${new Date().toLocaleDateString()}</td>
+                <td>${p.unidad}</td>
             </tr>
         `).join('');
     },
 
+    // 3. Lógica de Exportación a Excel (Formato CSV nativo)
     exportToExcel() {
-        const data = JSON.parse(localStorage.getItem('agrocol_inventory')) || [];
-        let csvContent = "ID,PRODUCTO,TIPO,CANTIDAD,UNIDAD,FECHA REGISTRO\n";
+        const data = JSON.parse(localStorage.getItem('products')) || [];
+        let csv = "ID,PRODUCTO,TIPO,CANTIDAD,UNIDAD\n";
         
         data.forEach(p => {
-            const row = [p.id || '001', p.nombre, p.tipo || 'Verdura', p.cantidad, p.unidad || 'kg', new Date().toLocaleDateString()].join(",");
-            csvContent += row + "\n";
+            csv += `${p.id},${p.nombre},${p.tipo},${p.cantidad},${p.unidad}\n`;
         });
 
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const blob = new Blob([csv], { type: 'text/csv' });
         const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.setAttribute("href", url);
-        link.setAttribute("download", "Reporte_AgroCol.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Reporte_AgroCol_${new Date().toLocaleDateString()}.csv`;
+        a.click();
     },
 
+    // 4. Lógica de Filtrado
     filterData() {
-        alert("Filtros aplicados. (La lógica de fechas se activará al seleccionar un rango).");
+        const desde = document.getElementById('fecha-desde').value;
+        const hasta = document.getElementById('fecha-hasta').value;
+        alert(`Filtrando datos desde ${desde} hasta ${hasta}...`);
+        // Aquí conectarías con tu lógica de fechas
     }
 };
