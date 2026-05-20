@@ -1,16 +1,21 @@
-:root { --primary: #1e4d2b; --accent: #2e7d32; --light: #f4f7f6; }
-body { font-family: 'Segoe UI', sans-serif; display: flex; margin: 0; background: var(--light); }
-.sidebar { width: 250px; height: 100vh; background: var(--primary); color: white; padding: 20px; }
-main { flex: 1; padding: 30px; }
+:root { --sidebar-bg: #1e293b; --main-bg: #f1f5f9; --card-bg: #ffffff; --text-main: #334155; }
+body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; background: var(--main-bg); color: var(--text-main); }
 
-/* Estilo de la Tabla tipo ERP */
-.table-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+/* Sidebar */
+.sidebar { width: 260px; height: 100vh; background: var(--sidebar-bg); color: white; position: fixed; }
+.sidebar h2 { padding: 20px; font-size: 1.2rem; color: #94a3b8; border-bottom: 1px solid #334155; }
+.sidebar a { display: block; color: #cbd5e1; padding: 15px 25px; text-decoration: none; cursor: pointer; border-left: 4px solid transparent; }
+.sidebar a:hover { background: #334155; color: white; border-left: 4px solid #38bdf8; }
+
+/* Main */
+main { margin-left: 260px; padding: 30px; width: calc(100% - 260px); }
+
+/* Cards y Tablas (Look ERP) */
+.card { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 25px; }
 table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-th { background: #f8f9fa; border-bottom: 2px solid #dee2e6; padding: 15px; text-align: left; color: #333; }
-td { padding: 15px; border-bottom: 1px solid #eee; }
-tr:hover { background: #f1f8e9; }
+th { background: #f8fafc; padding: 15px; text-align: left; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
+td { padding: 15px; border-bottom: 1px solid #e2e8f0; }
 
 /* Botones */
-.btn-action { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; color: white; }
-.btn-edit { background: #1976d2; }
-.btn-delete { background: #c62828; }
+.btn-erp { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; }
+.btn-delete { background: #ef4444; color: white; }

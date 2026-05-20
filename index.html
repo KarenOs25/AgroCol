@@ -2,17 +2,18 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>AgroCol | ERP Sistema</title>
+    <title>AgroCol | ERP</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body onload="App.init()">
+<body onload="App.renderDashboard()">
     <div class="sidebar">
         <h2>AgroCol S.A.S</h2>
-        <a onclick="App.renderDashboard()">🏠 Dashboard</a>
+        <a onclick="App.renderDashboard()">📊 Dashboard</a>
         <a onclick="Inventory.render()">📦 Inventario</a>
         <a onclick="Auth.logout()">🚪 Cerrar Sesión</a>
     </div>
-    <main id="main-content"></main>
+    <main id="main-content">
+        </main>
     <script src="js/storage.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/inventario.js"></script>
