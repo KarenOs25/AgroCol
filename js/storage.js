@@ -1,13 +1,14 @@
-// js/storage.js - Base de datos simulada en LocalStorage
-const DataManager = {
-    getProducts: () => JSON.parse(localStorage.getItem('products')) || [],
-    saveProduct: (prod) => {
-        let prods = DataManager.getProducts();
-        prods.push(prod);
-        localStorage.setItem('products', JSON.stringify(prods));
-    },
-    // Método para calcular stock total automáticamente
-    getTotalStock: () => {
-        return DataManager.getProducts().reduce((acc, p) => acc + parseInt(p.cantidad), 0);
+// js/storage.js
+const Storage = {
+    // Guarda datos en el navegador
+    save: (key, data) => localStorage.setItem(key, JSON.stringify(data)),
+    // Obtiene datos del navegador
+    get: (key) => JSON.parse(localStorage.getItem(key)) || [],
+    
+    // Historial para cumplir con RF-09
+    recordMovement: (type, product, qty) => {
+        const history = Storage.get('history');
+        history.push({ type, product, qty, user: 'Admin', date: new Date().toLocaleString() });
+        Storage.save('history', history);
     }
 };

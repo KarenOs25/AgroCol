@@ -1,29 +1,28 @@
+// js/app.js
 const App = {
     init() {
-        Auth.validate();
-        this.renderInventario();
+        if (!sessionStorage.getItem('isLogged')) window.location.href = 'login.html';
+        this.renderDashboard();
     },
 
-    renderInventario() {
-        const inv = JSON.parse(localStorage.getItem('products')) || [];
+    renderDashboard() {
+        const products = Storage.get('products');
         document.getElementById('main-content').innerHTML = `
-            <div class="content-box">
-                <h1>📦 Inventario AgroCol</h1>
-                <div class="input-group">
-                    <input id="n-prod" placeholder="Nombre del producto">
-                    <input id="c-prod" type="number" placeholder="Cantidad">
-                    <button onclick="Inventory.agregar()">➕ Registrar</button>
-                </div>
-                <hr>
-                <input type="text" id="search" placeholder="🔍 Buscar producto..." onkeyup="App.filtrar()">
-                <table id="tabla-inv">
-                    <thead><tr><th>Producto</th><th>Stock</th><th>Acciones</th></tr></thead>
+            <div class="card">
+                <h1>Sistema AgroCol S.A.S</h1>
+                <p>Bienvenido al Panel de Control. Selecciona una opción del menú.</p>
+            </div>
+            <div class="card">
+                <h2>Inventario General</h2>
+                <input type="text" id="search" placeholder="🔍 Buscar producto..." onkeyup="App.search()">
+                <table id="inv-table">
+                    <thead><tr><th>Nombre</th><th>Cantidad</th><th>Acción</th></tr></thead>
                     <tbody>
-                        ${inv.map((p, i) => `
+                        ${products.map((p, i) => `
                             <tr>
                                 <td>${p.nombre}</td>
                                 <td>${p.cantidad}</td>
-                                <td><button onclick="Inventory.eliminar(${i})" style="background:#c62828">Eliminar</button></td>
+                                <td><button class="btn btn-danger" onclick="App.delete(${i})">Eliminar</button></td>
                             </tr>
                         `).join('')}
                     </tbody>
@@ -32,32 +31,20 @@ const App = {
         `;
     },
 
-    filtrar() {
+    search() {
         const query = document.getElementById('search').value.toLowerCase();
-        const filas = document.querySelectorAll('#tabla-inv tbody tr');
-        filas.forEach(fila => {
-            fila.style.display = fila.innerText.toLowerCase().includes(query) ? '' : 'none';
+        const rows = document.querySelectorAll('#inv-table tbody tr');
+        rows.forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(query) ? '' : 'none';
         });
-    }
-};
-
-const Inventory = {
-    agregar() {
-        const nombre = document.getElementById('n-prod').value;
-        const cantidad = parseInt(document.getElementById('c-prod').value);
-        if(nombre && cantidad) {
-            let inv = JSON.parse(localStorage.getItem('products')) || [];
-            inv.push({ nombre, cantidad });
-            localStorage.setItem('products', JSON.stringify(inv));
-            App.renderInventario();
-        } else { alert("Completa todos los campos"); }
     },
-    eliminar(index) {
-        if(confirm("¿Seguro que quieres eliminar este producto?")) {
-            let inv = JSON.parse(localStorage.getItem('products'));
-            inv.splice(index, 1);
-            localStorage.setItem('products', JSON.stringify(inv));
-            App.renderInventario();
+
+    delete(index) {
+        if(confirm("¿Eliminar este registro?")) {
+            let products = Storage.get('products');
+            products.splice(index, 1);
+            Storage.save('products', products);
+            this.renderDashboard();
         }
     }
 };
