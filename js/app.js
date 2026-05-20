@@ -1,27 +1,16 @@
-const App = {
-    views: {
-        dashboard: `
-            <div class="stats-container">
-                <div class="card"><h3>Total Productos</h3><p id="total-prod">0</p></div>
-                <div class="card alert"><h3>Stock Bajo</h3><p id="low-stock">0</p></div>
-            </div>
-            <div id="movimientos-recientes"></div>
-        `,
-        inventario: `
-            <div class="table-actions">
-                <button onclick="Inventory.openModal()">+ Nuevo Producto</button>
-            </div>
-            <table id="inv-table">...</table>
-        `
-    },
-    
-    render(view) {
-        if (!AuthService.checkSession()) return;
-        document.getElementById('app').innerHTML = this.views[view];
-        this.initViewLogic(view);
-    },
-
-    initViewLogic(view) {
-        // Lógica específica para cada vista
-    }
-};
+function renderDashboard() {
+    const main = document.getElementById('main-content');
+    main.innerHTML = `
+        <h1>Inicio</h1>
+        <div class="card-grid">
+            <div class="card"><h3>Inicio</h3><p>Ir al dashboard</p></div>
+            <div class="card"><h3>Entradas/Salidas</h3><p>Registrar</p></div>
+            <div class="card"><h3>Reportes</h3><p>Ver estadísticas</p></div>
+            <div class="card"><h3>Inventario</h3><p>Ver productos</p></div>
+        </div>
+        <div class="alert-box">
+            <i class="fas fa-exclamation-triangle"></i> <strong>Alerta: ¡Stock bajo!</strong><br>
+            Tomate Chonto (Menos de 10 kg)
+        </div>
+    `;
+}

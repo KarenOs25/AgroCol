@@ -2,22 +2,19 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroCol | Sistema de Gestión Profesional</title>
+    <title>AgroCol | Gestión Agrícola</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body onload="showSection('dashboard')">
+<body onload="renderDashboard()">
 
-    <nav class="navbar">
-        <div class="logo">AgroCol S.A.S</div>
-    </nav>
-    
-    <aside class="sidebar">
-        <a onclick="showSection('dashboard')"><i class="fas fa-home"></i> Dashboard</a>
-        <a onclick="showSection('inventario')"><i class="fas fa-box"></i> Inventario</a>
-        <a onclick="showSection('reportes')"><i class="fas fa-file-alt"></i> Reportes</a>
-    </aside>
+    <div class="sidebar">
+        <h2>AgroGestión</h2>
+        <a onclick="renderDashboard()"><i class="fas fa-home"></i> Inicio</a>
+        <a onclick="renderEntradas()"><i class="fas fa-exchange-alt"></i> Entradas / Salidas</a>
+        <a onclick="renderReportes()"><i class="fas fa-chart-bar"></i> Reportes</a>
+        <a onclick="renderInventario()"><i class="fas fa-box"></i> Inventario</a>
+    </div>
 
     <main id="main-content">
         </main>
@@ -25,34 +22,6 @@
     <script src="js/inventario.js"></script>
     <script src="js/movimientos.js"></script>
     <script src="js/reportes.js"></script>
-    
-    <script>
-        /**
-         * Función central para cambiar de vista (SPA)
-         */
-        function showSection(section) {
-            const content = document.getElementById('main-content');
-            
-            switch(section) {
-                case 'dashboard':
-                    content.innerHTML = `
-                        <h1>Dashboard Administrativo</h1>
-                        <div class="card">
-                            <h3>Resumen Ejecutivo</h3>
-                            <p>Bienvenido al sistema de gestión. Selecciona una opción del menú para comenzar.</p>
-                        </div>
-                    `;
-                    break;
-                case 'inventario':
-                    Inventory.renderInventory();
-                    break;
-                case 'reportes':
-                    Reports.generateReport();
-                    break;
-                default:
-                    content.innerHTML = "<h1>Página no encontrada</h1>";
-            }
-        }
-    </script>
+    <script src="js/app.js"></script>
 </body>
 </html>
