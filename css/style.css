@@ -1,21 +1,30 @@
-:root { --sidebar-bg: #1e293b; --main-bg: #f1f5f9; --card-bg: #ffffff; --text-main: #334155; }
-body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; background: var(--main-bg); color: var(--text-main); }
-
-/* Sidebar */
-.sidebar { width: 260px; height: 100vh; background: var(--sidebar-bg); color: white; position: fixed; }
-.sidebar h2 { padding: 20px; font-size: 1.2rem; color: #94a3b8; border-bottom: 1px solid #334155; }
-.sidebar a { display: block; color: #cbd5e1; padding: 15px 25px; text-decoration: none; cursor: pointer; border-left: 4px solid transparent; }
-.sidebar a:hover { background: #334155; color: white; border-left: 4px solid #38bdf8; }
-
-/* Main */
-main { margin-left: 260px; padding: 30px; width: calc(100% - 260px); }
-
-/* Cards y Tablas (Look ERP) */
-.card { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 25px; }
-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-th { background: #f8fafc; padding: 15px; text-align: left; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
-td { padding: 15px; border-bottom: 1px solid #e2e8f0; }
-
-/* Botones */
-.btn-erp { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; }
-.btn-delete { background: #ef4444; color: white; }
+const App = {
+    renderDashboard() {
+        const prods = Storage.get('products');
+        document.getElementById('main-content').innerHTML = `
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                <div class="card"><h3>Total Productos</h3><p style="font-size: 24px;">${prods.length}</p></div>
+                <div class="card"><h3>Stock Total</h3><p style="font-size: 24px;">${prods.reduce((a,b)=>a+parseInt(b.kg), 0)} Kg</p></div>
+                <div class="card"><h3>Alertas</h3><p style="color:red;">${prods.filter(p=>p.kg<10).length} Activas</p></div>
+            </div>
+            <div class="card">
+                <h2>Inventario Reciente</h2>
+                <table>
+                    <thead><tr><th>ID</th><th>Descripción</th><th>Kg</th><th>Unds</th><th>Acciones</th></tr></thead>
+                    <tbody>
+                        ${prods.map((p, i) => `<tr>
+                            <td>${p.id}</td><td>${p.descripcion}</td><td>${p.kg}</td><td>${p.und}</td>
+                            <td><button class="btn-erp btn-delete" onclick="App.delete(${i})">Eliminar</button></td>
+                        </tr>`).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    },
+    delete(i) {
+        let p = Storage.get('products');
+        p.splice(i, 1);
+        Storage.save('products', p);
+        this.renderDashboard();
+    }
+};

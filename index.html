@@ -2,21 +2,21 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>AgroCol | ERP</title>
+    <title>AgroCol | Sistema Profesional</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body onload="App.renderDashboard()">
+<body>
     <div class="sidebar">
-        <h2>AgroCol S.A.S</h2>
-        <a onclick="App.renderDashboard()">📊 Dashboard</a>
-        <a onclick="Inventory.render()">📦 Inventario</a>
-        <a onclick="Auth.logout()">🚪 Cerrar Sesión</a>
+        <div class="sidebar-header">AGROCOL S.A.S</div>
+        <a class="nav-item" onclick="App.loadContent('dashboard')">Dashboard</a>
+        <a class="nav-item" onclick="Inventory.renderForm()">Registrar Producto</a>
+        <a class="nav-item" onclick="Auth.logout()">Cerrar Sesión</a>
     </div>
     <main id="main-content">
         </main>
     <script src="js/storage.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/inventario.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/inventario.js"></script>
+    <script>App.loadContent('dashboard');</script>
 </body>
 </html>
