@@ -1,23 +1,16 @@
-const AuthService = {
-    login(username, password) {
-        const users = DB.get('users');
-        const user = users.find(u => u.username === username && u.password === password);
-        
-        if (user) {
-            sessionStorage.setItem('session', JSON.stringify({
-                user: user.username,
-                loginTime: Date.now()
-            }));
-            window.location.href = 'index.html';
+// js/auth.js
+const Auth = {
+    login(user, pass) {
+        // Simulación de validación contra LocalStorage
+        if(user === "admin" && pass === "1234") {
+            sessionStorage.setItem('user_logged', JSON.stringify({username: user}));
+            window.location.href = "index.html";
         } else {
-            alert('Credenciales incorrectas');
+            alert("Credenciales incorrectas");
         }
     },
-    
-    validate() {
-        const session = JSON.parse(sessionStorage.getItem('session'));
-        if (!session || (Date.now() - session.loginTime) > 1200000) {
-            window.location.href = 'login.html';
-        }
+    logout() {
+        sessionStorage.removeItem('user_logged');
+        window.location.href = "login.html";
     }
 };

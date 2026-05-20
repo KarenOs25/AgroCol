@@ -1,29 +1,26 @@
-const UI = {
-    render(view) {
-        const main = document.getElementById('main-content');
-        switch(view) {
-            case 'dashboard':
-                this.loadDashboard(main);
-                break;
-            case 'inventario':
-                this.loadInventory(main);
-                break;
+// js/app.js - El controlador central
+const App = {
+    // Inicialización del sistema
+    init() {
+        // Verificar autenticación
+        const session = sessionStorage.getItem('user_logged');
+        if (!session && window.location.pathname !== '/login.html') {
+            window.location.href = 'login.html';
         }
+        this.renderDashboard();
     },
 
-    loadDashboard(container) {
-        const prods = DB.get('products');
-        const lowStock = prods.filter(p => p.cantidad < 10);
-        
-        container.innerHTML = `
+    renderDashboard() {
+        const main = document.getElementById('main-content');
+        main.innerHTML = `
+            <h1>Inicio</h1>
             <div class="card-grid">
-                <div class="card"><h3>Total Productos</h3><p>${prods.length}</p></div>
-                <div class="card alert"><h3>Alerta Stock Bajo</h3><p>${lowStock.length}</p></div>
+                <div class="card" onclick="renderInventario()"><h3>Inventario</h3><p>Ver productos</p></div>
+                <div class="card" onclick="renderReportes()"><h3>Reportes</h3><p>Ver estadísticas</p></div>
             </div>
-            <div class="alert-box">
-                <i class="fas fa-exclamation-triangle"></i> 
-                ${lowStock.map(p => `Producto crítico: ${p.nombre}`).join('<br>')}
-            </div>
+            <div class="alert-box">Alerta: Tomate Chonto (Stock bajo)</div>
         `;
     }
 };
+
+document.addEventListener('DOMContentLoaded', () => App.init());
