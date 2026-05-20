@@ -2,22 +2,48 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>AgroCol | ERP Sistema</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>AgroCol | ERP</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; display: flex; background: #f1f5f9; }
+        .sidebar { width: 250px; height: 100vh; background: #1e293b; color: white; position: fixed; }
+        .sidebar h2 { padding: 20px; color: #94a3b8; border-bottom: 1px solid #334155; }
+        .sidebar a { display: block; color: #cbd5e1; padding: 15px 25px; cursor: pointer; text-decoration: none; }
+        .sidebar a:hover { background: #334155; color: white; }
+        main { margin-left: 250px; padding: 30px; width: 100%; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+    </style>
 </head>
 <body>
     <div class="sidebar">
         <h2>AgroCol S.A.S</h2>
-        <a onclick="App.renderDashboard()">📊 Dashboard</a>
-        <a onclick="Inventory.render()">📦 Inventario</a>
-        <a onclick="Auth.logout()">🚪 Salir</a>
+        <a onclick="App.render()">📊 Dashboard</a>
     </div>
     <main id="main-content">
-        <h1>Cargando...</h1>
+        <div class="card">
+            <h2>Inventario AgroCol</h2>
+            <table>
+                <thead><tr><th>ID</th><th>Descripción</th><th>Kg</th><th>Unds</th></tr></thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
     </main>
-    <script src="js/storage.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/inventario.js"></script>
-    <script src="js/app.js"></script>
+
+    <script>
+        const Storage = {
+            get: () => JSON.parse(localStorage.getItem('products')) || [{id:'A001', desc:'Tomate', kg:50, und:100}],
+        };
+
+        const App = {
+            render() {
+                const prods = Storage.get();
+                document.getElementById('table-body').innerHTML = prods.map(p => 
+                    `<tr><td>${p.id}</td><td>${p.desc}</td><td>${p.kg}</td><td>${p.und}</td></tr>`
+                ).join('');
+            }
+        };
+        App.render();
+    </script>
 </body>
 </html>
