@@ -1,6 +1,6 @@
 const App = {
     init() {
-        // Al iniciar, si hay productos en el almacenamiento, los muestra; si no, inicia vacío
+        Auth.validate();
         this.renderInventario();
     },
 
@@ -8,22 +8,21 @@ const App = {
         const inv = JSON.parse(localStorage.getItem('products')) || [];
         let html = `
             <div class="content-box">
-                <h1>Inventario AgroCol</h1>
+                <h1>Gestión de Inventario - AgroCol</h1>
                 <div class="input-group">
-                    <input id="n-prod" placeholder="Nombre del producto">
+                    <input id="n-prod" placeholder="Nombre producto">
                     <input id="c-prod" type="number" placeholder="Cantidad">
-                    <button onclick="Inventory.agregarProducto()">Agregar Producto</button>
+                    <button onclick="Inventory.agregar()">Registrar</button>
                 </div>
-                <table>
-                    <thead>
-                        <tr><th>Producto</th><th>Stock</th><th>Acción</th></tr>
-                    </thead>
+                <input type="text" id="search" placeholder="Buscar por nombre..." onkeyup="App.filtrar()">
+                <table id="tabla-inv">
+                    <thead><tr><th>Producto</th><th>Stock</th><th>Acción</th></tr></thead>
                     <tbody>
-                        ${inv.map((p, index) => `
+                        ${inv.map((p, i) => `
                             <tr>
                                 <td>${p.nombre}</td>
-                                <td>${p.cantidad}</td>
-                                <td><button onclick="Inventory.eliminarProducto(${index})">Eliminar</button></td>
+                                <td>${p.cantidad} ${p.cantidad < 5 ? '⚠️' : ''}</td>
+                                <td><button onclick="Inventory.eliminar(${i})">Eliminar</button></td>
                             </tr>
                         `).join('')}
                     </tbody>
@@ -31,23 +30,29 @@ const App = {
             </div>
         `;
         document.getElementById('main-content').innerHTML = html;
+    },
+
+    filtrar() {
+        const query = document.getElementById('search').value.toLowerCase();
+        const filas = document.querySelectorAll('#tabla-inv tbody tr');
+        filas.forEach(fila => {
+            fila.style.display = fila.innerText.toLowerCase().includes(query) ? '' : 'none';
+        });
     }
 };
 
 const Inventory = {
-    agregarProducto() {
+    agregar() {
         const nombre = document.getElementById('n-prod').value;
-        const cantidad = document.getElementById('c-prod').value;
-        if (nombre && cantidad) {
+        const cantidad = parseInt(document.getElementById('c-prod').value);
+        if(nombre && cantidad) {
             let inv = JSON.parse(localStorage.getItem('products')) || [];
-            inv.push({ nombre, cantidad: parseInt(cantidad) });
+            inv.push({ nombre, cantidad });
             localStorage.setItem('products', JSON.stringify(inv));
             App.renderInventario();
-        } else {
-            alert("Por favor llena ambos campos");
         }
     },
-    eliminarProducto(index) {
+    eliminar(index) {
         let inv = JSON.parse(localStorage.getItem('products'));
         inv.splice(index, 1);
         localStorage.setItem('products', JSON.stringify(inv));
