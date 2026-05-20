@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>AgroCol | Gestión Offline</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>AgroCol S.A.S.</h1>
+    </header>
+
+    <main class="menu-grid" id="main-menu">
+        <button class="btn-main" onclick="mostrarFormulario()">Registrar Entrada</button>
+        <div id="lista-productos">
+            <h3>Inventario Actual:</h3>
+            <ul id="inventario"></ul>
+        </div>
+    </main>
+
+    <section id="form-section" class="hidden">
+        <h2>Registrar Producto</h2>
+        <input type="text" id="nombre" placeholder="Nombre del producto">
+        <input type="number" id="cantidad" placeholder="Cantidad">
+        <button class="btn-main" onclick="guardarProducto()">Guardar</button>
+        <button class="btn-cancel" onclick="ocultarFormulario()">Cancelar</button>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>

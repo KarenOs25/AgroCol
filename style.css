@@ -1,0 +1,62 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    text-align: center;
+}
+
+header {
+    background-color: #2e7d32; /* Verde Agro */
+    color: white;
+    padding: 20px;
+}
+
+.menu-grid {
+    display: grid;
+    gap: 15px;
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+}
+
+.btn-main {
+    padding: 20px;
+    font-size: 18px;
+    background-color: #ffffff;
+    border: 2px solid #2e7d32;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.btn-main:hover {
+    background-color: #e8f5e9;
+}
+.hidden { display: none; }
+
+#form-section {
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-cancel {
+    padding: 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
