@@ -2,57 +2,33 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroCol | Gestión de Inventarios</title>
+    <title>AgroCol | Sistema Administrativo</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="app-container">
-        <aside class="sidebar">
-            <h2>AgroCol</h2>
-            <nav>
-                <button onclick="showSection('dashboard')">Dashboard</button>
-                <button onclick="showSection('inventario')">Inventario</button>
-                <button onclick="showSection('reportes')">Reportes</button>
-            </nav>
-        </aside>
-        
-        <main class="content">
-            <header>
-                <input type="text" id="search" placeholder="Buscar producto..." onkeyup="filterInventory()">
-            </header>
-
-            <section id="dashboard" class="page">
-                <div class="stats-grid">
-                    <div class="card"><h3>Total Productos</h3><p id="total-productos">0</p></div>
-                    <div class="card alert" id="alerta-stock"><h3>Alertas Stock</h3><p>0</p></div>
-                </div>
-                <h3>Movimientos Recientes</h3>
-                <div id="historial-container"></div>
-            </section>
-
-            <section id="inventario" class="page hidden">
-                <button class="btn-primary" onclick="showForm()">+ Nuevo Producto</button>
-                <table id="tabla-inventario">
-                    <thead><tr><th>Nombre</th><th>Tipo</th><th>Stock</th><th>Acción</th></tr></thead>
-                    <tbody></tbody>
-                </table>
-            </section>
-
-            <section id="reportes" class="page hidden">
-                <h3>Reporte General</h3>
-                <button onclick="window.print()">Imprimir Reporte</button>
-            </section>
-        </main>
+    <div id="login-screen" class="full-screen">
+        <div class="login-box">
+            <h2>AgroCol S.A.S.</h2>
+            <input type="text" id="user" placeholder="Usuario">
+            <input type="password" id="pass" placeholder="Contraseña">
+            <button onclick="auth()">Iniciar Sesión</button>
+            <p id="error-msg" class="error"></p>
+        </div>
     </div>
 
-    <div id="modal" class="hidden">
-        <div class="modal-content">
-            <input type="text" id="nombre" placeholder="Nombre">
-            <input type="text" id="tipo" placeholder="Tipo">
-            <input type="number" id="cantidad" placeholder="Cantidad">
-            <button onclick="saveProduct()">Guardar</button>
-        </div>
+    <div id="app-screen" class="hidden">
+        <aside class="sidebar">
+            <h2 class="brand">AgroCol</h2>
+            <nav>
+                <a onclick="show('dashboard')"><i class="fas fa-home"></i> Dashboard</a>
+                <a onclick="show('inventario')"><i class="fas fa-box"></i> Inventario</a>
+                <a onclick="show('movimientos')"><i class="fas fa-exchange-alt"></i> Movimientos</a>
+                <a onclick="show('reportes')"><i class="fas fa-chart-line"></i> Reportes</a>
+                <a onclick="logout()" class="logout"><i class="fas fa-sign-out-alt"></i> Salir</a>
+            </nav>
+        </aside>
+        <main id="main-content"></main>
     </div>
     <script src="app.js"></script>
 </body>
