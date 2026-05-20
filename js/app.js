@@ -1,26 +1,17 @@
-// js/app.js - El controlador central
+if (!sessionStorage.getItem('isLogged')) {
+    window.location.href = 'login.html';
+}
+
 const App = {
-    // Inicialización del sistema
     init() {
-        // Verificar autenticación
-        const session = sessionStorage.getItem('user_logged');
-        if (!session && window.location.pathname !== '/login.html') {
-            window.location.href = 'login.html';
-        }
+        Auth.validate();
         this.renderDashboard();
     },
-
     renderDashboard() {
-        const main = document.getElementById('main-content');
-        main.innerHTML = `
-            <h1>Inicio</h1>
-            <div class="card-grid">
-                <div class="card" onclick="renderInventario()"><h3>Inventario</h3><p>Ver productos</p></div>
-                <div class="card" onclick="renderReportes()"><h3>Reportes</h3><p>Ver estadísticas</p></div>
-            </div>
-            <div class="alert-box">Alerta: Tomate Chonto (Stock bajo)</div>
+        document.getElementById('main-content').innerHTML = `
+            <h1>Dashboard</h1>
+            <div class="card"><h3>Bienvenido al sistema AgroCol</h3></div>
+            <div class="alert-box">Alerta: Verificar stock de productos.</div>
         `;
     }
 };
-
-document.addEventListener('DOMContentLoaded', () => App.init());

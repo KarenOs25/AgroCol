@@ -1,16 +1,21 @@
-// js/auth.js
+if (!sessionStorage.getItem('isLogged')) {
+    window.location.href = 'login.html';
+}
+
 const Auth = {
     login(user, pass) {
-        // Simulación de validación contra LocalStorage
         if(user === "admin" && pass === "1234") {
-            sessionStorage.setItem('user_logged', JSON.stringify({username: user}));
+            sessionStorage.setItem('isLogged', 'true');
             window.location.href = "index.html";
         } else {
             alert("Credenciales incorrectas");
         }
     },
     logout() {
-        sessionStorage.removeItem('user_logged');
+        sessionStorage.clear();
         window.location.href = "login.html";
+    },
+    validate() {
+        if (!sessionStorage.getItem('isLogged')) window.location.href = 'login.html';
     }
 };

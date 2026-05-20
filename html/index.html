@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>AgroCol | Sistema de Gestión</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body onload="App.init()">
+    <div class="sidebar">
+        <h2>AgroCol S.A.S</h2>
+        <a onclick="App.renderDashboard()"><i class="fas fa-home"></i> Inicio</a>
+        <a onclick="Reports.generateReport()"><i class="fas fa-file-alt"></i> Reportes</a>
+        <button onclick="Auth.logout()" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+    </div>
+    <main id="main-content"></main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/reportes.js"></script>
+    <script src="js/movimientos.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
