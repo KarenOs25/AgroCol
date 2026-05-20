@@ -1,8 +1,15 @@
 const Storage = {
     save: (k, d) => localStorage.setItem(k, JSON.stringify(d)),
     get: (k) => JSON.parse(localStorage.getItem(k)) || [],
-    initData: () => {
-        if(!localStorage.getItem('products')) Storage.save('products', [{id:1, nombre:'Tomate', cantidad: 3}]);
+    
+    // RF-09: Historial de movimientos
+    addMovement: (type, product, qty) => {
+        const history = Storage.get('history');
+        history.push({ 
+            type, product, qty, 
+            date: new Date().toLocaleString(), 
+            user: sessionStorage.getItem('username') || 'Admin' 
+        });
+        Storage.save('history', history);
     }
 };
-Storage.initData();
