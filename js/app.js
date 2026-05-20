@@ -1,50 +1,28 @@
-// js/app.js
 const App = {
-    init() {
-        if (!sessionStorage.getItem('isLogged')) window.location.href = 'login.html';
-        this.renderDashboard();
-    },
-
     renderDashboard() {
-        const products = Storage.get('products');
-        document.getElementById('main-content').innerHTML = `
-            <div class="card">
-                <h1>Sistema AgroCol S.A.S</h1>
-                <p>Bienvenido al Panel de Control. Selecciona una opción del menú.</p>
-            </div>
-            <div class="card">
-                <h2>Inventario General</h2>
-                <input type="text" id="search" placeholder="🔍 Buscar producto..." onkeyup="App.search()">
-                <table id="inv-table">
-                    <thead><tr><th>Nombre</th><th>Cantidad</th><th>Acción</th></tr></thead>
-                    <tbody>
-                        ${products.map((p, i) => `
-                            <tr>
-                                <td>${p.nombre}</td>
-                                <td>${p.cantidad}</td>
-                                <td><button class="btn btn-danger" onclick="App.delete(${i})">Eliminar</button></td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-        `;
-    },
-
-    search() {
-        const query = document.getElementById('search').value.toLowerCase();
-        const rows = document.querySelectorAll('#inv-table tbody tr');
-        rows.forEach(row => {
-            row.style.display = row.innerText.toLowerCase().includes(query) ? '' : 'none';
-        });
-    },
-
-    delete(index) {
-        if(confirm("¿Eliminar este registro?")) {
-            let products = Storage.get('products');
-            products.splice(index, 1);
-            Storage.save('products', products);
-            this.renderDashboard();
+        const prods = Storage.get('products');
+        const lowStock = prods.filter(p => p.cantidad < 10);
+        
+        let html = `<h1>Dashboard AgroCol</h1>`;
+        
+        if(lowStock.length > 0) {
+            html += `<div class="alert-low-stock">⚠️ ALERTA: ${lowStock.map(p=>p.nombre).join(', ')} tienen bajo stock.</div>`;
         }
+        
+        html += `<div class="card">
+            <h2>Inventario en Tiempo Real</h2>
+            <table id="table">
+                <thead><tr><th>Producto</th><th>Cantidad</th><th>Acción</th></tr></thead>
+                <tbody>${prods.map((p, i) => `<tr><td>${p.nombre}</td><td>${p.cantidad}</td>
+                <td><button class="btn btn-danger" onclick="App.delete(${i})">Eliminar</button></td></tr>`).join('')}</tbody>
+            </table>
+        </div>`;
+        document.getElementById('main-content').innerHTML = html;
+    },
+    delete(i) {
+        let p = Storage.get('products');
+        p.splice(i, 1);
+        Storage.save('products', p);
+        this.renderDashboard();
     }
 };
