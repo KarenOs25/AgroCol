@@ -1,35 +1,39 @@
-// Cargar datos al iniciar
-document.addEventListener('DOMContentLoaded', mostrarInventario);
+let inventario = JSON.parse(localStorage.getItem('agrocol_db')) || [];
 
-function mostrarFormulario() {
-    document.getElementById('main-menu').classList.add('hidden');
-    document.getElementById('form-section').classList.remove('hidden');
+function saveProduct() {
+    const p = {
+        nombre: document.getElementById('nombre').value,
+        tipo: document.getElementById('tipo').value,
+        cantidad: parseInt(document.getElementById('cantidad').value)
+    };
+    if(!p.nombre || p.cantidad < 0) return alert("Datos inválidos");
+    inventario.push(p);
+    localStorage.setItem('agrocol_db', JSON.stringify(inventario));
+    updateDashboard();
+    hideForm();
 }
 
-function ocultarFormulario() {
-    document.getElementById('main-menu').classList.remove('hidden');
-    document.getElementById('form-section').classList.remove('hidden');
+function updateDashboard() {
+    document.getElementById('total-productos').innerText = inventario.length;
+    const bajos = inventario.filter(i => i.cantidad < 10).length;
+    document.querySelector('#alerta-stock p').innerText = bajos;
+    renderTable();
 }
 
-function guardarProducto() {
-    const nombre = document.getElementById('nombre').value;
-    const cantidad = document.getElementById('cantidad').value;
-    
-    // Guardar en localStorage
-    let inventario = JSON.parse(localStorage.getItem('inventario')) || [];
-    inventario.push({ nombre, cantidad });
-    localStorage.setItem('inventario', JSON.stringify(inventario));
-    
-    alert("¡Registrado!");
-    mostrarInventario();
-    ocultarFormulario();
+function renderTable() {
+    const tbody = document.querySelector('#tabla-inventario tbody');
+    tbody.innerHTML = inventario.map(i => `
+        <tr><td>${i.nombre}</td><td>${i.tipo}</td><td>${i.cantidad}</td>
+        <td><button onclick="addStock('${i.nombre}')">+</button></td></tr>
+    `).join('');
 }
 
-function mostrarInventario() {
-    const lista = document.getElementById('inventario');
-    lista.innerHTML = "";
-    let inventario = JSON.parse(localStorage.getItem('inventario')) || [];
-    inventario.forEach(item => {
-        lista.innerHTML += `<li>${item.nombre} - ${item.cantidad} unidades</li>`;
-    });
+function showSection(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
 }
+
+function showForm() { document.getElementById('modal').classList.remove('hidden'); }
+function hideForm() { document.getElementById('modal').classList.add('hidden'); }
+
+updateDashboard();
