@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro | AgroCol S.A.S</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+    <div class="login-container">
+        <h2>Registro AgroCol</h2>
+        <input type="text" id="reg-user" placeholder="Usuario">
+        <input type="password" id="reg-pass" placeholder="Contraseña">
+        <button onclick="Auth.register(document.getElementById('reg-user').value, document.getElementById('reg-pass').value)">Crear Cuenta</button>
+        <button onclick="window.location.href='login.html'" style="background:transparent; color:#666; border:none; margin-top:15px; cursor:pointer; width:100%;">Volver al Login</button>
+    </div>
+    <script src="js/auth.js"></script>
+</body>
+</html>

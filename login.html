@@ -2,20 +2,17 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Acceso | AgroCol</title>
+    <title>Acceso | AgroCol S.A.S</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="auth-page">
-
     <div class="login-container">
         <h2>AgroCol S.A.S</h2>
         <input type="text" id="user" placeholder="Usuario">
         <input type="password" id="pass" placeholder="Contraseña">
-        <button onclick="Auth.login(document.getElementById('user').value, document.getElementById('pass').value)">
-            Ingresar al Sistema
-        </button>
+        <button onclick="Auth.login(document.getElementById('user').value, document.getElementById('pass').value)">Ingresar</button>
+        <button onclick="window.location.href='register.html'" style="background:transparent; color:#2e7d32; border:none; margin-top:15px; cursor:pointer; width:100%;">¿No tienes cuenta? Regístrate aquí</button>
     </div>
-
     <script src="js/auth.js"></script>
 </body>
 </html>

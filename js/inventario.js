@@ -1,7 +1,3 @@
-if (!sessionStorage.getItem('isLogged')) {
-    window.location.href = 'login.html';
-}
-
 const Inventory = {
     // Cargar datos
     getAll: () => JSON.parse(localStorage.getItem('products')) || [],

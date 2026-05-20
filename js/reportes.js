@@ -1,7 +1,3 @@
-if (!sessionStorage.getItem('isLogged')) {
-    window.location.href = 'login.html';
-}
-
 const Reports = {
     generateReport() {
         const main = document.getElementById('main-content');

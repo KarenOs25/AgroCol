@@ -1,7 +1,3 @@
-if (!sessionStorage.getItem('isLogged')) {
-    window.location.href = 'login.html';
-}
-
 const Movements = {
     registrarMovimiento(idProducto, cantidad, tipo) {
         Auth.validate(); // Seguridad

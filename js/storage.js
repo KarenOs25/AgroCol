@@ -1,7 +1,3 @@
-if (!sessionStorage.getItem('isLogged')) {
-    window.location.href = 'login.html';
-}
-
 // js/storage.js - Base de datos simulada en LocalStorage
 const DataManager = {
     getProducts: () => JSON.parse(localStorage.getItem('products')) || [],
