@@ -1,4 +1,45 @@
-<input type="text" placeholder="Usuario">
-<input type="password" placeholder="Contraseña">
-<button onclick="Auth.registrar()">Crear Cuenta</button>
-<script src="js/auth.js"></script>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro | AgroCol S.A.S</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-container { max-width: 400px; margin: 100px auto; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .btn-main { background: #1e4d2b; color: white; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Crear Cuenta</h2>
+        <p>Regístrate para acceder al sistema</p>
+        
+        <input type="text" id="user" placeholder="Nombre de usuario" required>
+        <input type="password" id="pass" placeholder="Contraseña" required>
+        
+        <button class="btn-main" onclick="registrarUsuario()">Registrarse</button>
+        <p><a href="login.html">¿Ya tienes cuenta? Ingresa aquí</a></p>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        function registrarUsuario() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            
+            // Llamamos a la función de tu js/auth.js
+            // Asegúrate de que tu auth.js tenga esta lógica de guardado
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            if(users.find(user => user.user === u)) {
+                return alert("El usuario ya existe.");
+            }
+            users.push({user: u, pass: p});
+            localStorage.setItem('users', JSON.stringify(users));
+            alert("Usuario registrado correctamente");
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
