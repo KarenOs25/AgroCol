@@ -1,79 +1,15 @@
-/* Nuevo selector para la página de login */
-.login-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f8fafc; /* Color de fondo suave */
-}
+/* Login centrado */
+.login-page { background: #2b4d32; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+.login-box { background: white; padding: 30px; border-radius: 8px; text-align: center; width: 300px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+.login-logo { width: 100px; margin-bottom: 10px; }
+.btn-login { width: 100%; padding: 10px; background: #2b4d32; color: white; border: none; cursor: pointer; margin-top: 10px; }
+.link-registro { display: block; margin: 10px 0; color: #555; text-decoration: none; }
 
-/* El cuadro blanco (card) */
-.login-box {
-    width: 320px;
-    padding: 30px;
-    text-align: center; /* Centra todo el contenido de texto e inputs inline */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra los divs internos */
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* Contenedor para el logo y título */
-.header-box {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.login-logo {
-    width: 90px;
-    margin-bottom: 10px;
-}
-
-/* Contenedor para el formulario */
-.form-box {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra los inputs y el botón */
-}
-
-/* Inputs con ancho uniforme */
-.form-box input {
-    width: 90%;
-    padding: 10px;
-    margin-bottom: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
-}
-
-/* Enlace de registro, centrado y con estilo */
-.register-link {
-    color: #1e4d2b; /* Verde corporativo */
-    text-decoration: none;
-    font-size: 0.9em;
-    margin-bottom: 15px;
-    display: block;
-}
-
-/* Botón de login con ancho total */
-.form-box .btn {
-    width: 90%;
-    padding: 11px;
-    border: none;
-    border-radius: 4px;
-    background-color: #1e4d2b; /* Verde corporativo */
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.form-box .btn:hover {
-    background-color: #14351d; /* Verde más oscuro al pasar el mouse */
-}
+/* ERP Estilos */
+body { font-family: sans-serif; margin: 0; display: flex; background: #f4f4f4; }
+.sidebar { width: 250px; background: #1e4d2b; color: white; padding: 20px; height: 100vh; }
+.card { background: white; padding: 20px; margin: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+input, select { padding: 8px; margin: 5px; width: 90%; }
+.btn { background: #1e4d2b; color: white; padding: 8px; border: none; cursor: pointer; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
