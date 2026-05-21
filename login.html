@@ -2,18 +2,17 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Acceso AgroCol</title>
+    <title>Acceso | AgroCol S.A.S</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="login-page">
-    <div class="card login-box">
-        <img src="AgroCol.png" alt="Logo" style="width: 100px; margin-bottom: 20px;">
-        
-        <h3>Acceso AgroCol</h3>
+    <div class="login-card">
+        <img src="AgroCol.png" alt="Logo" class="login-logo">
+        <h2>AgroCol S.A.S</h2>
         <input type="text" id="u" placeholder="Usuario">
         <input type="password" id="p" placeholder="Contraseña">
-        <button class="btn" onclick="Auth.login()">Ingresar</button>
-        <p><a href="register.html">Crear usuario</a></p>
+        <a href="register.html" class="link-registro">Crear usuario</a>
+        <button class="btn-login" onclick="Auth.login()">Ingresar</button>
     </div>
     <script src="js/auth.js"></script>
 </body>

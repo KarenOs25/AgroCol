@@ -1,20 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Registro | AgroCol S.A.S</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
+<head><link rel="stylesheet" href="css/style.css"></head>
 <body class="login-page">
-    <div class="card login-box">
-        <h3>Nuevo Usuario</h3>
+    <div class="login-card">
+        <h3>Crear Usuario</h3>
         <input type="text" id="nombre" placeholder="Nombre completo">
-        <input type="text" id="u" placeholder="Nombre de usuario">
-        <input type="email" id="email" placeholder="Correo (opcional)">
+        <input type="text" id="u" placeholder="Usuario">
         <input type="password" id="p" placeholder="Contraseña">
         <input type="password" id="p2" placeholder="Confirmar contraseña">
-        <button class="btn" onclick="Auth.registrar()">Registrarse</button>
-        <p><a href="login.html" style="color: #1e4d2b;">Volver al Login</a></p>
+        <button class="btn-login" onclick="Auth.registrar()">Registrarse</button>
+        <a href="login.html" class="link-registro">Volver</a>
     </div>
     <script src="js/auth.js"></script>
 </body>
