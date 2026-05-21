@@ -14,17 +14,22 @@
     <main id="app">
         <div class="card">
             <h3>Registrar Movimiento</h3>
-            <input id="nombre" placeholder="Nombre">
-            <select id="cat"><option>Frutas</option><option>Verduras</option><option>Herramientas</option><option>Abonos</option></select>
-            <input id="cant" type="number" placeholder="Cantidad (kg)">
+            <input id="nombre" placeholder="Nombre Producto">
+            <select id="cat">
+                <option>Frutas</option><option>Verduras</option><option>Herramientas</option><option>Abonos</option>
+            </select>
+            <input id="cant" type="number" placeholder="Cantidad">
             <select id="unidad"><option value="KG">KG</option><option value="UND">UND</option></select>
             <select id="tipo"><option value="ENTRADA">Entrada</option><option value="SALIDA">Salida</option></select>
             <button class="btn" onclick="guardar()">Procesar</button>
             <button class="btn" style="background:#b91c1c" onclick="window.print()">🖨️ PDF</button>
         </div>
+        
         <div class="card">
             <table id="tabla">
-                <thead><tr><th>Nombre</th><th>Cat</th><th>Cantidad</th><th>Estado</th><th>Acción</th></tr></thead>
+                <thead>
+                    <tr><th>Producto</th><th>Cat</th><th>Cantidad</th><th>Estado</th><th>Acción</th></tr>
+                </thead>
                 <tbody id="lista"></tbody>
             </table>
         </div>
@@ -32,6 +37,7 @@
 
     <script src="js/auth.js"></script>
     <script>
+        // Protección de seguridad
         if (!sessionStorage.getItem('session')) window.location.href = 'login.html';
 
         function guardar() {
