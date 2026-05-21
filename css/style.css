@@ -1,54 +1,12 @@
-/* Fondo verde oscuro de la imagen */
-.login-page {
-    background-color: #2b4d32;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
+/* Estilos Login (Foto) */
+.login-page { background: #2b4d32; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+.login-card { background: white; padding: 30px; border-radius: 8px; text-align: center; width: 300px; }
+.logo { width: 80px; margin-bottom: 10px; }
+.btn-login { width: 100%; padding: 10px; background: #2b4d32; color: white; border: none; cursor: pointer; }
 
-/* El cuadro blanco central */
-.login-card {
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    text-align: center;
-    width: 320px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.login-logo { width: 100px; margin-bottom: 10px; }
-
-.login-card h2 { color: #333; margin-top: 0; }
-
-.login-card input {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-.link-registro {
-    display: block;
-    margin: 10px 0;
-    color: #555;
-    text-decoration: none;
-    font-size: 0.9em;
-}
-
-.btn-login {
-    width: 100%;
-    padding: 10px;
-    background-color: #2b4d32;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-/* Mantener tus otros estilos intactos */
+/* Estilos Generales (Lo que ya tenías) */
+body { font-family: sans-serif; margin: 0; display: flex; background: #f4f4f4; }
 .sidebar { width: 250px; background: #1e4d2b; color: white; padding: 20px; height: 100vh; }
-.btn { background: #1e4d2b; color: white; padding: 10px 20px; border: none; cursor: pointer; }
+.card { background: white; padding: 20px; margin: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+input, select { padding: 8px; margin: 5px; }
+.btn { background: #1e4d2b; color: white; padding: 8px; border: none; cursor: pointer; }
