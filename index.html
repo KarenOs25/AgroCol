@@ -11,20 +11,20 @@
         <a class="nav-btn" onclick="location.reload()">📦 Inventario</a>
         <a class="nav-btn" onclick="Auth.logout()">🚪 Salir</a>
     </nav>
-    <main>
+    <main id="app">
         <div class="card">
             <h3>Registrar Movimiento</h3>
-            <input id="nombre" placeholder="Producto">
+            <input id="nombre" placeholder="Nombre">
             <select id="cat"><option>Frutas</option><option>Verduras</option><option>Herramientas</option><option>Abonos</option></select>
-            <input id="cant" type="number" placeholder="Cantidad">
+            <input id="cant" type="number" placeholder="Cantidad (kg)">
             <select id="unidad"><option value="KG">KG</option><option value="UND">UND</option></select>
             <select id="tipo"><option value="ENTRADA">Entrada</option><option value="SALIDA">Salida</option></select>
             <button class="btn" onclick="guardar()">Procesar</button>
             <button class="btn" style="background:#b91c1c" onclick="window.print()">🖨️ PDF</button>
         </div>
         <div class="card">
-            <table>
-                <thead><tr><th>Producto</th><th>Cat</th><th>Cantidad</th><th>Estado</th><th>Acción</th></tr></thead>
+            <table id="tabla">
+                <thead><tr><th>Nombre</th><th>Cat</th><th>Cantidad</th><th>Estado</th><th>Acción</th></tr></thead>
                 <tbody id="lista"></tbody>
             </table>
         </div>
@@ -35,11 +35,19 @@
         if (!sessionStorage.getItem('session')) window.location.href = 'login.html';
 
         function guardar() {
-            let p = { nombre: document.getElementById('nombre').value, cat: document.getElementById('cat').value, cant: parseFloat(document.getElementById('cant').value), unidad: document.getElementById('unidad').value, tipo: document.getElementById('tipo').value };
+            let p = { 
+                nombre: document.getElementById('nombre').value, 
+                cat: document.getElementById('cat').value, 
+                cant: parseFloat(document.getElementById('cant').value),
+                unidad: document.getElementById('unidad').value,
+                tipo: document.getElementById('tipo').value 
+            };
             let prods = JSON.parse(localStorage.getItem('prods') || '[]');
             if(p.tipo === 'SALIDA') p.cant = -p.cant;
+            
             let ex = prods.find(x => x.nombre === p.nombre);
             if(ex) ex.cant += p.cant; else prods.push(p);
+            
             localStorage.setItem('prods', JSON.stringify(prods));
             render();
         }
@@ -53,9 +61,15 @@
 
         function render() {
             let prods = JSON.parse(localStorage.getItem('prods') || '[]');
-            document.getElementById('lista').innerHTML = prods.map((p, index) => {
+            document.getElementById('lista').innerHTML = prods.map((p, i) => {
                 let alerta = (p.cant <= 5 && p.cant > 0) ? '<span style="color:red; font-weight:bold;">⚠️ BAJO</span>' : '✅ OK';
-                return `<tr><td>${p.nombre}</td><td>${p.cat}</td><td>${p.cant} ${p.unidad}</td><td>${alerta}</td><td><button class="btn" style="background:red; padding:5px;" onclick="eliminar(${index})">Eliminar</button></td></tr>`;
+                return `<tr>
+                    <td>${p.nombre}</td>
+                    <td>${p.cat}</td>
+                    <td>${p.cant} ${p.unidad}</td>
+                    <td>${alerta}</td>
+                    <td><button onclick="eliminar(${i})" style="cursor:pointer; color:red; border:none; background:transparent;">Eliminar</button></td>
+                </tr>`;
             }).join('');
         }
         render();
