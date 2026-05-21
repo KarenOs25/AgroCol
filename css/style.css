@@ -1,97 +1,28 @@
-/* 1. Reset básico y configuración de fuente */
-:root {
-    --primary-color: #1a4d2e; /* Verde AgroCol del lateral */
-    --bg-color: #f8fafc;      /* Gris muy claro del fondo */
-}
+:root { --primary: #1e4d2b; }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    display: flex;
-    background-color: var(--bg-color);
-    min-height: 100vh;
-    
-    /* Configuración del Logo de Fondo (Marca de Agua) */
-    background-image: url('logo.png'); /* Asegúrate de que el archivo se llame así */
+body { 
+    font-family: sans-serif; margin: 0; display: flex; background: #f8fafc; 
+    /* Fondo con el logo */
+    background-image: url('../AgroCol.png'); 
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 500px; /* Tamaño del logo en el fondo */
+    background-size: 400px;
     background-attachment: fixed;
-    opacity: 1; /* El body es opaco para que el logo se vea bien */
 }
 
-/* 2. Panel Lateral (Sidebar) */
-.sidebar {
-    width: 260px;
-    background-color: var(--primary-color);
-    color: white;
-    height: 100vh;
-    position: fixed;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+.sidebar { width: 250px; background: var(--primary); height: 100vh; color: white; padding: 20px; position: fixed; }
+.sidebar a { display: block; color: white; padding: 12px; cursor: pointer; }
+
+main { margin-left: 250px; padding: 40px; width: 100%; }
+
+.card { 
+    background: rgba(255, 255, 255, 0.9); 
+    padding: 25px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+    margin-bottom: 20px; 
 }
 
-/* 3. Área principal (Main) */
-main {
-    margin-left: 260px; /* Deja espacio para el sidebar */
-    padding: 40px;
-    width: calc(100% - 260px);
-    z-index: 1; /* Asegura que el contenido esté sobre el logo */
-}
-
-/* 4. Estilo de tarjetas (Contenedores blancos) */
-.card {
-    background: rgba(255, 255, 255, 0.95); /* Blanco ligeramente transparente para ver el logo detrás */
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    margin-bottom: 25px;
-}
-
-/* 5. Tabla Profesional */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th {
-    background-color: #f1f5f9;
-    padding: 15px;
-    text-align: left;
-    border-bottom: 2px solid #e2e8f0;
-    font-weight: 600;
-}
-
-td {
-    padding: 15px;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-/* 6. Botones */
-.btn {
-    padding: 10px 20px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    color: white;
-    background: #d32f2f; /* Rojo para eliminar */
-    transition: background 0.3s;
-}
-
-.btn:hover {
-    background: #b71c1c;
-}
-
-/* 7. Alerta de Stock */
-.alert-low {
-    background-color: #fff3cd;
-    border: 1px solid #ffeeba;
-    color: #856404;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-}
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 15px; border-bottom: 1px solid #ddd; text-align: left; }
+.btn { padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer; }

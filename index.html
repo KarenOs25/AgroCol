@@ -2,92 +2,68 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>AgroCol S.A.S | Gestión de Inventarios</title>
-    <style>
-        :root { --primary: #1a4d2e; --light: #f8fafc; }
-        
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            margin: 0; 
-            display: flex; 
-            min-height: 100vh;
-            background-color: var(--light);
-            /* FONDO CON TU LOGO */
-            background-image: url('AgroCol.png');
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: 500px;
-            background-attachment: fixed;
-        }
-
-        /* Capa blanca transparente sobre el fondo para que el texto se lea */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.90);
-            z-index: -1;
-        }
-
-        .sidebar { width: 260px; background: var(--primary); color: white; padding: 20px; box-shadow: 2px 0 5px rgba(0,0,0,0.1); }
-        .sidebar h2 { font-size: 1.2rem; border-bottom: 1px solid #33691e; padding-bottom: 10px; }
-        .nav-btn { display: block; color: #d1d5db; padding: 15px; cursor: pointer; text-decoration: none; }
-        .nav-btn:hover { color: white; background: #2e7d32; }
-        
-        main { flex-grow: 1; padding: 40px; }
-        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { padding: 15px; border-bottom: 1px solid #e2e8f0; text-align: left; }
-        .btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; color: white; background: var(--primary); }
-    </style>
+    <title>AgroCol | ERP Inventario</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
     <div class="sidebar">
         <h2>AgroCol S.A.S</h2>
-        <a class="nav-btn" onclick="render('dashboard')">📊 Dashboard</a>
-        <a class="nav-btn" onclick="render('inventario')">📦 Inventario</a>
+        <a onclick="render('dashboard')">📊 Dashboard</a>
+        <a onclick="render('inventario')">📦 Inventario</a>
     </div>
 
-    <main id="app-content"></main>
+    <main id="app"></main>
 
     <script>
         let productos = JSON.parse(localStorage.getItem('productos')) || [];
 
         function render(view) {
-            const content = document.getElementById('app-content');
-            if(view === 'dashboard') {
-                content.innerHTML = `<div class="card"><h1>Dashboard AgroCol</h1><p>Gestión eficiente de inventarios.</p></div>`;
+            const app = document.getElementById('app');
+            if (view === 'dashboard') {
+                app.innerHTML = `<div class="card"><h1>Dashboard</h1><p>Bienvenido al sistema de gestión agrícola AgroCol.</p></div>`;
             } else {
-                content.innerHTML = `
+                app.innerHTML = `
                     <div class="card">
-                        <h2>Gestión de Inventario</h2>
-                        <input id="desc" placeholder="Producto">
-                        <select id="cat"><option>Frutas</option><option>Herramientas</option><option>Abonos</option></select>
-                        <input id="cant" type="number" placeholder="Cant">
-                        <button class="btn" onclick="agregar()">Registrar</button>
+                        <h2>Registrar Producto</h2>
+                        <input id="desc" placeholder="Nombre">
+                        <select id="cat">
+                            <option>Frutas</option><option>Herramientas</option><option>Abonos</option>
+                        </select>
+                        <input id="cant" type="number" placeholder="Cantidad">
+                        <button class="btn" onclick="agregar()">Guardar</button>
                     </div>
                     <div class="card">
                         <table>
-                            <thead><tr><th>Cat</th><th>Producto</th><th>Cant</th><th>Acción</th></tr></thead>
-                            <tbody id="lista">${productos.map((p,i) => `<tr><td>${p.cat}</td><td>${p.desc}</td><td>${p.cant}</td><td><button onclick="eliminar(${i})">X</button></td></tr>`).join('')}</tbody>
+                            <thead><tr><th>Categoría</th><th>Producto</th><th>Cant</th><th>Acción</th></tr></thead>
+                            <tbody id="lista"></tbody>
                         </table>
-                    </div>
-                `;
+                    </div>`;
+                actualizarTabla();
             }
         }
 
         function agregar() {
-            productos.push({ cat: document.getElementById('cat').value, desc: document.getElementById('desc').value, cant: document.getElementById('cant').value });
+            productos.push({
+                cat: document.getElementById('cat').value,
+                desc: document.getElementById('desc').value,
+                cant: document.getElementById('cant').value
+            });
             localStorage.setItem('productos', JSON.stringify(productos));
-            render('inventario');
+            actualizarTabla();
+        }
+
+        function actualizarTabla() {
+            document.getElementById('lista').innerHTML = productos.map((p, i) => `
+                <tr><td>${p.cat}</td><td>${p.desc}</td><td>${p.cant}</td>
+                <td><button onclick="eliminar(${i})">X</button></td></tr>
+            `).join('');
         }
 
         function eliminar(i) {
             productos.splice(i, 1);
             localStorage.setItem('productos', JSON.stringify(productos));
-            render('inventario');
+            actualizarTabla();
         }
 
         render('dashboard');
