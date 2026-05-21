@@ -1,20 +1,17 @@
 const Auth = {
     login() {
-        const u = document.getElementById('user').value;
-        const p = document.getElementById('pass').value;
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        
-        const validUser = users.find(user => user.user === u && user.pass === p);
-        
-        if (validUser) {
+        const u = document.getElementById('u').value;
+        const p = document.getElementById('p').value;
+        if (u === "admin" && p === "123") {
             sessionStorage.setItem('session', 'true');
             window.location.href = 'index.html';
-        } else {
-            alert("Usuario o contraseña incorrectos");
-        }
+        } else { alert("Usuario incorrecto"); }
     },
     logout() {
         sessionStorage.removeItem('session');
         window.location.href = 'login.html';
+    },
+    check() {
+        if (!sessionStorage.getItem('session')) window.location.href = 'login.html';
     }
 };

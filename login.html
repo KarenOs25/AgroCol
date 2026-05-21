@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><title>Login</title><link rel="stylesheet" href="css/style.css"></head>
+<head><link rel="stylesheet" href="css/style.css"></head>
 <body>
     <div class="card" style="margin: 100px auto; width: 300px;">
         <h3>Acceso AgroCol</h3>
         <input id="u" placeholder="Usuario"><br><br>
-        <input id="p" type="password" placeholder="Pass"><br><br>
-        <button class="btn" onclick="if(document.getElementById('u').value=='admin') location.href='index.html'">Ingresar</button>
+        <input id="p" type="password" placeholder="Contraseña"><br><br>
+        <button class="btn" onclick="Auth.login()">Ingresar</button>
     </div>
+    <script src="js/auth.js"></script>
 </body>
 </html>

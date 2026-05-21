@@ -1,45 +1,61 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><title>AgroCol S.A.S</title><link rel="stylesheet" href="css/style.css"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>AgroCol S.A.S | ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
 <body>
     <nav class="sidebar">
         <h2>AgroCol S.A.S</h2>
-        <a class="nav-btn" onclick="location.reload()">📊 Inicio</a>
-        <a class="nav-btn" onclick="render()">📦 Inventario</a>
+        <a class="nav-btn" onclick="render('dashboard')">📊 Dashboard</a>
+        <a class="nav-btn" onclick="render('inventario')">📦 Inventario</a>
+        <a class="nav-btn" onclick="Auth.logout()">🚪 Salir</a>
     </nav>
-    <main id="app">
-        <div class="card">
-            <h3>Registrar Producto / Movimiento</h3>
-            <input id="nombre" placeholder="Nombre">
-            <select id="cat"><option>Frutas</option><option>Verduras</option><option>Herramientas</option></select>
-            <input id="cant" type="number" placeholder="Cantidad (kg)">
-            <select id="tipo"><option value="ENTRADA">Entrada</option><option value="SALIDA">Salida</option></select>
-            <button class="btn" onclick="guardar()">Procesar</button>
-            <button class="btn" style="background:#b91c1c" onclick="window.print()">🖨️ PDF Inventario</button>
-        </div>
-        <div class="card"><table id="tabla"><thead><tr><th>Nombre</th><th>Cat</th><th>Cantidad (KG)</th></tr></thead><tbody id="lista"></tbody></table></div>
-    </main>
+    <main id="app"></main>
 
+    <script src="js/auth.js"></script>
     <script>
-        function guardar() {
+        function render(view) {
+            const app = document.getElementById('app');
+            const prods = JSON.parse(localStorage.getItem('prods') || '[]');
+            
+            if (view === 'dashboard') {
+                app.innerHTML = `<h1>Dashboard</h1><div class="card">Total productos: ${prods.length}</div>`;
+            } else {
+                app.innerHTML = `
+                    <div class="card">
+                        <h3>Gestión de Inventario (KG)</h3>
+                        <input id="nombre" placeholder="Nombre producto">
+                        <select id="cat"><option>Frutas</option><option>Verduras</option><option>Herramientas</option></select>
+                        <input id="cant" type="number" placeholder="Cantidad KG">
+                        <select id="tipo"><option value="ENTRADA">Entrada</option><option value="SALIDA">Salida</option></select>
+                        <button class="btn" onclick="procesar()">Guardar</button>
+                        <button class="btn" style="background:#b91c1c" onclick="window.print()">🖨️ PDF Inventario</button>
+                    </div>
+                    <div class="card">
+                        <table>
+                            <thead><tr><th>Nombre</th><th>Categoría</th><th>Cantidad (KG)</th></tr></thead>
+                            <tbody>${prods.map(p => `<tr><td>${p.nombre}</td><td>${p.cat}</td><td>${p.cant} KG</td></tr>`).join('')}</tbody>
+                        </table>
+                    </div>`;
+            }
+        }
+
+        function procesar() {
             let p = { nombre: document.getElementById('nombre').value, cat: document.getElementById('cat').value, cant: parseFloat(document.getElementById('cant').value), tipo: document.getElementById('tipo').value };
             let prods = JSON.parse(localStorage.getItem('prods') || '[]');
-            
             if(p.tipo === 'SALIDA') p.cant = -p.cant;
             
-            let existente = prods.find(x => x.nombre === p.nombre);
-            if(existente) existente.cant += p.cant;
-            else prods.push(p);
+            let ex = prods.find(x => x.nombre === p.nombre);
+            if(ex) ex.cant += p.cant; else prods.push(p);
             
             localStorage.setItem('prods', JSON.stringify(prods));
-            render();
+            render('inventario');
         }
-
-        function render() {
-            let prods = JSON.parse(localStorage.getItem('prods') || '[]');
-            document.getElementById('lista').innerHTML = prods.map(p => `<tr><td>${p.nombre}</td><td>${p.cat}</td><td>${p.cant} KG</td></tr>`).join('');
-        }
-        render();
+        
+        Auth.check(); // Protege la página
+        render('dashboard');
     </script>
 </body>
 </html>
