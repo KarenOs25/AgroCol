@@ -1,9 +1,4 @@
-body { 
-    font-family: sans-serif; margin: 0; display: flex; 
-    background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('../AgroCol.png');
-    background-size: 300px; background-position: center; background-attachment: fixed;
-    min-height: 100vh; 
-}
+body { font-family: sans-serif; margin: 0; display: flex; background: #f8fafc; min-height: 100vh; }
 .sidebar { width: 250px; background: #1e4d2b; color: white; padding: 20px; }
 .nav-btn { display: block; padding: 15px; color: white; cursor: pointer; text-decoration: none; }
 main { flex-grow: 1; padding: 40px; }
@@ -11,6 +6,4 @@ main { flex-grow: 1; padding: 40px; }
 table { width: 100%; border-collapse: collapse; }
 th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
 .btn { background: #1e4d2b; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
-.login-page { display: flex; justify-content: center; align-items: center; }
-.login-box { width: 300px; text-align: center; }
-input, select { padding: 10px; margin: 5px 0; width: 90%; }
+input, select { padding: 10px; margin: 5px; width: 150px; }
