@@ -26,8 +26,12 @@
     <script src="js/reportes.js"></script>
 
     <script>
+        console.log("Sistema cargado"); // Si esto aparece en F12, los JS cargaron bien
+
         function render(view) {
             const app = document.getElementById('app');
+            if(!app) return console.error("No se encontró el elemento #app");
+
             const prods = JSON.parse(localStorage.getItem('productos') || '[]');
             
             if (view === 'dashboard') {
@@ -36,13 +40,6 @@
                     <div class="dashboard-grid">
                         <div class="card"><h3>Total Productos</h3><p>${prods.length}</p></div>
                         <div class="card" style="border-left: 5px solid #e11d48;"><h3>Alertas Stock</h3><p>${alertas}</p></div>
-                    </div>
-                    <div class="card">
-                        <h2>Registrar Movimiento</h2>
-                        <select id="mov-id">${prods.map(p => `<option value="${p.id}">${p.nombre}</option>`).join('')}</select>
-                        <input type="number" id="mov-cant" placeholder="Cantidad">
-                        <select id="mov-tipo"><option value="ENTRADA">Entrada</option><option value="SALIDA">Salida</option></select>
-                        <button class="btn" onclick="ejecutarMovimiento()">Procesar</button>
                     </div>
                 `;
             } else if (view === 'inventario') {
@@ -55,16 +52,9 @@
                         </table>
                     </div>
                 `;
-                Inventario.renderTable();
+                // Verificamos si la función existe antes de llamarla
+                if(typeof Inventario !== 'undefined') Inventario.renderTable();
             }
-        }
-
-        function ejecutarMovimiento() {
-            const id = document.getElementById('mov-id').value;
-            const cant = document.getElementById('mov-cant').value;
-            const tipo = document.getElementById('mov-tipo').value;
-            Movimientos.registrar(id, cant, tipo);
-            render('dashboard');
         }
 
         window.onload = () => render('dashboard');
