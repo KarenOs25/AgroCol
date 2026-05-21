@@ -2,48 +2,77 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>AgroCol | ERP</title>
+    <title>AgroCol S.A.S | ERP Inventario</title>
     <style>
-        body { font-family: sans-serif; margin: 0; display: flex; background: #f1f5f9; }
-        .sidebar { width: 250px; height: 100vh; background: #1e293b; color: white; position: fixed; }
-        .sidebar h2 { padding: 20px; color: #94a3b8; border-bottom: 1px solid #334155; }
-        .sidebar a { display: block; color: #cbd5e1; padding: 15px 25px; cursor: pointer; text-decoration: none; }
-        .sidebar a:hover { background: #334155; color: white; }
-        main { margin-left: 250px; padding: 30px; width: 100%; }
-        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+        :root { --primary: #1e4d2b; --accent: #2e7d32; --light: #f1f5f9; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; background: var(--light); }
+        .sidebar { width: 260px; height: 100vh; background: var(--primary); color: white; position: fixed; }
+        .sidebar h2 { padding: 20px; text-align: center; border-bottom: 1px solid #33691e; }
+        .nav-btn { display: block; padding: 15px 25px; color: #fff; cursor: pointer; text-decoration: none; }
+        .nav-btn:hover { background: var(--accent); }
+        main { margin-left: 260px; padding: 30px; width: calc(100% - 260px); }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        input { padding: 8px; margin: 5px; border: 1px solid #ccc; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f8fafc; padding: 12px; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
+        .btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; color: white; background: var(--accent); }
+        .alert-low { background: #fff3cd; color: #856404; padding: 10px; border-radius: 4px; margin-bottom: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="sidebar">
         <h2>AgroCol S.A.S</h2>
-        <a onclick="App.render()">📊 Dashboard</a>
+        <a class="nav-btn" onclick="renderApp('dashboard')">📊 Dashboard</a>
+        <a class="nav-btn" onclick="renderApp('inventario')">📦 Inventario</a>
     </div>
-    <main id="main-content">
-        <div class="card">
-            <h2>Inventario AgroCol</h2>
-            <table>
-                <thead><tr><th>ID</th><th>Descripción</th><th>Kg</th><th>Unds</th></tr></thead>
-                <tbody id="table-body"></tbody>
-            </table>
-        </div>
-    </main>
+    <main id="app-content"></main>
 
     <script>
-        const Storage = {
-            get: () => JSON.parse(localStorage.getItem('products')) || [{id:'A001', desc:'Tomate', kg:50, und:100}],
-        };
+        let productos = JSON.parse(localStorage.getItem('productos')) || [];
 
-        const App = {
-            render() {
-                const prods = Storage.get();
-                document.getElementById('table-body').innerHTML = prods.map(p => 
-                    `<tr><td>${p.id}</td><td>${p.desc}</td><td>${p.kg}</td><td>${p.und}</td></tr>`
-                ).join('');
+        function renderApp(view, filter = '') {
+            const content = document.getElementById('app-content');
+            if(view === 'dashboard') {
+                const alertas = productos.filter(p => p.kg < 10);
+                content.innerHTML = `
+                    ${alertas.map(a => `<div class="alert-low">⚠️ ALERTA: ${a.desc} tiene bajo stock (${a.kg}kg)</div>`).join('')}
+                    <div class="card"><h1>Dashboard</h1><p>Total productos: ${productos.length}</p></div>
+                `;
+            } else {
+                const filtrados = productos.filter(p => p.desc.toLowerCase().includes(filter.toLowerCase()));
+                content.innerHTML = `
+                    <div class="card">
+                        <h2>Gestión de Inventario</h2>
+                        <input onkeyup="renderApp('inventario', this.value)" placeholder="🔍 Buscar producto...">
+                        <button class="btn" style="background:#2563eb" onclick="generarReporte()">📄 Exportar Reporte</button>
+                    </div>
+                    <div class="card">
+                        <input id="id" placeholder="ID"><input id="desc" placeholder="Nombre">
+                        <input id="kg" type="number" placeholder="Kg"><input id="und" type="number" placeholder="Unds">
+                        <button class="btn" onclick="guardar()">Guardar</button>
+                        <table>
+                            <thead><tr><th>ID</th><th>Nombre</th><th>Kg</th><th>Unds</th></tr></thead>
+                            <tbody>${filtrados.map(p => `<tr><td>${p.id}</td><td>${p.desc}</td><td>${p.kg}</td><td>${p.und}</td></tr>`).join('')}</tbody>
+                        </table>
+                    </div>
+                `;
             }
-        };
-        App.render();
+        }
+
+        function guardar() {
+            productos.push({ id: document.getElementById('id').value, desc: document.getElementById('desc').value, kg: document.getElementById('kg').value, und: document.getElementById('und').value });
+            localStorage.setItem('productos', JSON.stringify(productos));
+            renderApp('inventario');
+        }
+
+        function generarReporte() {
+            const v = window.open('', '_blank');
+            v.document.write(`<html><body><h1>Reporte AgroCol</h1>${document.querySelector('table').outerHTML}<script>window.print();<\/script></body></html>`);
+            v.document.close();
+        }
+
+        renderApp('dashboard');
     </script>
 </body>
 </html>
