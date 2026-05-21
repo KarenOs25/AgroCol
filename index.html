@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>AgroCol S.A.S | ERP</title>
+    <title>AgroCol ERP</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -14,50 +14,33 @@
     <main>
         <div class="card">
             <h3>Registrar Movimiento</h3>
-            <input id="nombre" placeholder="Nombre Producto">
-            <select id="cat">
-                <option>Frutas</option><option>Verduras</option><option>Herramientas</option><option>Abonos</option>
-            </select>
+            <input id="nombre" placeholder="Producto">
+            <select id="cat"><option>Frutas</option><option>Verduras</option><option>Herramientas</option></select>
             <input id="cant" type="number" placeholder="Cantidad">
             <select id="unidad"><option value="KG">KG</option><option value="UND">UND</option></select>
             <select id="tipo"><option value="ENTRADA">Entrada</option><option value="SALIDA">Salida</option></select>
             <button class="btn" onclick="guardar()">Procesar</button>
-            <button class="btn" style="background:#b91c1c" onclick="window.print()">🖨️ PDF</button>
+            <button class="btn" onclick="window.print()">🖨️ PDF</button>
         </div>
         <div class="card">
-            <table>
-                <thead><tr><th>Producto</th><th>Cat</th><th>Cantidad</th></tr></thead>
-                <tbody id="lista"></tbody>
-            </table>
+            <table><thead><tr><th>Producto</th><th>Unidad</th><th>Cantidad</th></tr></thead><tbody id="lista"></tbody></table>
         </div>
     </main>
-
     <script src="js/auth.js"></script>
     <script>
         if (!sessionStorage.getItem('session')) window.location.href = 'login.html';
-
         function guardar() {
-            let p = { 
-                nombre: document.getElementById('nombre').value, 
-                cat: document.getElementById('cat').value, 
-                cant: parseFloat(document.getElementById('cant').value),
-                unidad: document.getElementById('unidad').value,
-                tipo: document.getElementById('tipo').value 
-            };
+            let p = { n: document.getElementById('nombre').value, c: document.getElementById('cat').value, q: parseFloat(document.getElementById('cant').value), u: document.getElementById('unidad').value, t: document.getElementById('tipo').value };
             let prods = JSON.parse(localStorage.getItem('prods') || '[]');
-            if(p.tipo === 'SALIDA') p.cant = -p.cant;
-            
-            let ex = prods.find(x => x.nombre === p.nombre);
-            if(ex) ex.cant += p.cant; else prods.push(p);
-            
+            if(p.t === 'SALIDA') p.q = -p.q;
+            let ex = prods.find(x => x.n === p.n);
+            if(ex) ex.q += p.q; else prods.push(p);
             localStorage.setItem('prods', JSON.stringify(prods));
             render();
         }
-
         function render() {
             let prods = JSON.parse(localStorage.getItem('prods') || '[]');
-            document.getElementById('lista').innerHTML = prods.map(p => 
-                `<tr><td>${p.nombre}</td><td>${p.cat}</td><td>${p.cant} ${p.unidad}</td></tr>`).join('');
+            document.getElementById('lista').innerHTML = prods.map(p => `<tr><td>${p.n}</td><td>${p.u}</td><td>${p.q}</td></tr>`).join('');
         }
         render();
     </script>
