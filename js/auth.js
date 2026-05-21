@@ -1,24 +1,31 @@
 const Auth = {
-    login(user, pass) {
+    registrar() {
+        const user = document.querySelector('input[type=text]').value;
+        const pass = document.querySelector('input[type=password]').value;
+        if(!user || !pass) return alert("Completa los campos");
+        
         const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const u = users.find(x => x.user === user && x.pass === pass);
-        if (u) {
-            const session = { ...u, loginTime: new Date().getTime() };
-            sessionStorage.setItem('session', JSON.stringify(session));
-            return true;
-        }
-        return false;
+        users.push({ user, pass });
+        localStorage.setItem('users', JSON.stringify(users));
+        alert("Registro exitoso");
+        window.location.href = 'login.html';
     },
-    checkSession() {
-        const s = JSON.parse(sessionStorage.getItem('session'));
-        if (!s) window.location.href = 'login.html';
-        if (new Date().getTime() - s.loginTime > 20 * 60 * 1000) {
-            this.logout();
+
+    login() {
+        const user = document.querySelector('input[type=text]').value;
+        const pass = document.querySelector('input[type=password]').value;
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        
+        if (users.find(u => u.user === user && u.pass === pass)) {
+            sessionStorage.setItem('session', 'true');
+            window.location.href = 'index.html';
+        } else {
+            alert("Credenciales incorrectas");
         }
     },
+
     logout() {
         sessionStorage.removeItem('session');
         window.location.href = 'login.html';
-    },
-    getRole() { return JSON.parse(sessionStorage.getItem('session'))?.role; }
+    }
 };
