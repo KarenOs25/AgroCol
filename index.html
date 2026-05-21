@@ -9,15 +9,16 @@
 <body>
 
     <nav class="sidebar">
-        <div class="brand" style="padding:20px; color:white;"><h2>AgroCol S.A.S</h2></div>
-        <ul class="nav-links" style="list-style:none; padding:0;">
+        <div class="brand"><h2>AgroCol S.A.S</h2></div>
+        <ul class="nav-links">
             <li><a class="nav-btn" onclick="render('dashboard')">📊 Dashboard</a></li>
             <li><a class="nav-btn" onclick="render('inventario')">📦 Inventario</a></li>
             <li><a class="nav-btn" onclick="Auth.logout()">🚪 Salir</a></li>
         </ul>
     </nav>
 
-    <main id="app"></main>
+    <main id="app">
+        </main>
 
     <script src="js/auth.js"></script>
     <script src="js/inventario.js"></script>
@@ -27,11 +28,10 @@
     <script>
         function render(view) {
             const app = document.getElementById('app');
+            const prods = JSON.parse(localStorage.getItem('productos') || '[]');
             
             if (view === 'dashboard') {
-                const prods = JSON.parse(localStorage.getItem('productos') || '[]');
                 const alertas = prods.filter(p => p.cantidad <= 5).length;
-                
                 app.innerHTML = `
                     <div class="dashboard-grid">
                         <div class="card"><h3>Total Productos</h3><p>${prods.length}</p></div>
@@ -67,10 +67,7 @@
             render('dashboard');
         }
 
-        window.onload = () => {
-            // Auth.checkSession(); // Descomenta esto cuando tengas el login funcionando
-            render('dashboard');
-        };
+        window.onload = () => render('dashboard');
     </script>
 </body>
 </html>
