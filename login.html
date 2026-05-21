@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><link rel="stylesheet" href="css/style.css"></head>
-<body>
-    <div class="card" style="margin: 100px auto; width: 300px;">
-        <h3>Acceso AgroCol</h3>
-        <input id="u" placeholder="Usuario"><br><br>
-        <input id="p" type="password" placeholder="Contraseña"><br><br>
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso | AgroCol S.A.S</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-page">
+    <div class="card login-box">
+        <h2>AgroCol S.A.S</h2>
+        <input type="text" id="u" placeholder="Usuario">
+        <input type="password" id="p" placeholder="Contraseña">
         <button class="btn" onclick="Auth.login()">Ingresar</button>
     </div>
     <script src="js/auth.js"></script>
