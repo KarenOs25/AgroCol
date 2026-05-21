@@ -6,13 +6,11 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
     <div class="sidebar">
         <h2>AgroCol S.A.S</h2>
         <a onclick="render('dashboard')">📊 Dashboard</a>
         <a onclick="render('inventario')">📦 Inventario</a>
     </div>
-
     <main id="app"></main>
 
     <script>
@@ -21,24 +19,27 @@
         function render(view) {
             const app = document.getElementById('app');
             if (view === 'dashboard') {
-                app.innerHTML = `<div class="card"><h1>Dashboard</h1><p>Bienvenido al sistema de gestión agrícola AgroCol.</p></div>`;
+                const alertas = productos.filter(p => (parseInt(p.kg) + parseInt(p.und)) < 10);
+                app.innerHTML = `
+                    <h1>Dashboard</h1>
+                    ${alertas.map(a => `<div class="card" style="border:2px solid red">⚠️ ALERTA: ${a.desc} tiene bajo stock (${a.kg}kg / ${a.und} und)</div>`).join('')}
+                    <div class="card"><p>Total productos en sistema: ${productos.length}</p></div>`;
             } else {
                 app.innerHTML = `
                     <div class="card">
                         <h2>Registrar Producto</h2>
                         <input id="desc" placeholder="Nombre">
                         <select id="cat">
-                            <option>Frutas</option>
-                            <option>Verduras</option>
-                            <option>Herramientas</option>
-                            <option>Abonos</option>
+                            <option>Frutas</option><option>Verduras</option>
+                            <option>Herramientas</option><option>Abonos</option>
                         </select>
-                        <input id="cant" type="number" placeholder="Cantidad">
+                        <input id="kg" type="number" placeholder="Kg">
+                        <input id="und" type="number" placeholder="Unds">
                         <button class="btn" onclick="agregar()">Guardar</button>
                     </div>
                     <div class="card">
                         <table>
-                            <thead><tr><th>Categoría</th><th>Producto</th><th>Cant</th><th>Acción</th></tr></thead>
+                            <thead><tr><th>Cat</th><th>Producto</th><th>Kg</th><th>Unds</th><th>Acción</th></tr></thead>
                             <tbody id="lista"></tbody>
                         </table>
                     </div>`;
@@ -50,23 +51,24 @@
             productos.push({
                 cat: document.getElementById('cat').value,
                 desc: document.getElementById('desc').value,
-                cant: document.getElementById('cant').value
+                kg: document.getElementById('kg').value || 0,
+                und: document.getElementById('und').value || 0
             });
             localStorage.setItem('productos', JSON.stringify(productos));
-            actualizarTabla();
-        }
-
-        function actualizarTabla() {
-            document.getElementById('lista').innerHTML = productos.map((p, i) => `
-                <tr><td>${p.cat}</td><td>${p.desc}</td><td>${p.cant}</td>
-                <td><button onclick="eliminar(${i})">X</button></td></tr>
-            `).join('');
+            render('inventario');
         }
 
         function eliminar(i) {
             productos.splice(i, 1);
             localStorage.setItem('productos', JSON.stringify(productos));
-            actualizarTabla();
+            render('inventario');
+        }
+
+        function actualizarTabla() {
+            document.getElementById('lista').innerHTML = productos.map((p, i) => `
+                <tr><td>${p.cat}</td><td>${p.desc}</td><td>${p.kg}</td><td>${p.und}</td>
+                <td><button onclick="eliminar(${i})">Eliminar</button></td></tr>
+            `).join('');
         }
 
         render('dashboard');

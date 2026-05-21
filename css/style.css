@@ -1,28 +1,14 @@
 :root { --primary: #1e4d2b; }
-
 body { 
-    font-family: sans-serif; margin: 0; display: flex; background: #f8fafc; 
-    /* Fondo con el logo */
+    font-family: sans-serif; margin: 0; display: flex; background: #f8fafc;
     background-image: url('../AgroCol.png'); 
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 400px;
-    background-attachment: fixed;
+    background-repeat: no-repeat; background-position: center;
+    background-size: 400px; background-attachment: fixed;
 }
-
-.sidebar { width: 250px; background: var(--primary); height: 100vh; color: white; padding: 20px; position: fixed; }
+.sidebar { width: 250px; background: var(--primary); height: 100vh; color: white; padding: 20px; position: fixed; z-index: 10; }
 .sidebar a { display: block; color: white; padding: 12px; cursor: pointer; }
-
-main { margin-left: 250px; padding: 40px; width: 100%; }
-
-.card { 
-    background: rgba(255, 255, 255, 0.9); 
-    padding: 25px; 
-    border-radius: 12px; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
-    margin-bottom: 20px; 
-}
-
+main { margin-left: 250px; padding: 40px; width: 100%; z-index: 5; }
+.card { background: rgba(255, 255, 255, 0.9); padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
 table { width: 100%; border-collapse: collapse; }
 th, td { padding: 15px; border-bottom: 1px solid #ddd; text-align: left; }
 .btn { padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer; }
