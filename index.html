@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>AgroCol | ERP Inventario</title>
+    <title>AgroCol | ERP Sistema</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -18,12 +18,17 @@
 
         function render(view) {
             const app = document.getElementById('app');
+            
             if (view === 'dashboard') {
-                const alertas = productos.filter(p => (parseInt(p.kg) + parseInt(p.und)) < 10);
-                app.innerHTML = `
-                    <h1>Dashboard</h1>
-                    ${alertas.map(a => `<div class="card" style="border:2px solid red">⚠️ ALERTA: ${a.desc} tiene bajo stock (${a.kg}kg / ${a.und} und)</div>`).join('')}
-                    <div class="card"><p>Total productos en sistema: ${productos.length}</p></div>`;
+                // Lógica de Alerta: Filtra productos cuya suma sea menor o igual a 5
+                const alertas = productos.filter(p => (parseInt(p.kg) + parseInt(p.und)) <= 5);
+                
+                let alertaHTML = alertas.length > 0 
+                    ? alertas.map(a => `<div class="card" style="border: 2px solid #e11d48; color: #e11d48;">⚠️ BAJO STOCK: ${a.desc} (Total actual: ${parseInt(a.kg) + parseInt(a.und)})</div>`).join('')
+                    : `<div class="card" style="border: 2px solid #16a34a; color: #16a34a;">✅ Todo el inventario tiene niveles óptimos.</div>`;
+
+                app.innerHTML = `<h1>Dashboard</h1> ${alertaHTML} <div class="card"><p>Total de referencias registradas: ${productos.length}</p></div>`;
+            
             } else {
                 app.innerHTML = `
                     <div class="card">
@@ -35,7 +40,7 @@
                         </select>
                         <input id="kg" type="number" placeholder="Kg">
                         <input id="und" type="number" placeholder="Unds">
-                        <button class="btn" onclick="agregar()">Guardar</button>
+                        <button class="btn" onclick="agregar()">Guardar Producto</button>
                     </div>
                     <div class="card">
                         <table>
@@ -48,12 +53,16 @@
         }
 
         function agregar() {
-            productos.push({
+            const nuevoProducto = {
                 cat: document.getElementById('cat').value,
                 desc: document.getElementById('desc').value,
                 kg: document.getElementById('kg').value || 0,
                 und: document.getElementById('und').value || 0
-            });
+            };
+            
+            if(!nuevoProducto.desc) return alert("Por favor escribe el nombre del producto");
+            
+            productos.push(nuevoProducto);
             localStorage.setItem('productos', JSON.stringify(productos));
             render('inventario');
         }
@@ -65,12 +74,16 @@
         }
 
         function actualizarTabla() {
-            document.getElementById('lista').innerHTML = productos.map((p, i) => `
-                <tr><td>${p.cat}</td><td>${p.desc}</td><td>${p.kg}</td><td>${p.und}</td>
-                <td><button onclick="eliminar(${i})">Eliminar</button></td></tr>
-            `).join('');
+            const tbody = document.getElementById('lista');
+            if(tbody) {
+                tbody.innerHTML = productos.map((p, i) => `
+                    <tr><td>${p.cat}</td><td>${p.desc}</td><td>${p.kg}</td><td>${p.und}</td>
+                    <td><button onclick="eliminar(${i})" style="color:red; cursor:pointer;">Eliminar</button></td></tr>
+                `).join('');
+            }
         }
 
+        // Cargar Dashboard al iniciar
         render('dashboard');
     </script>
 </body>
