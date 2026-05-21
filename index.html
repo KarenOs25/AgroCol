@@ -20,10 +20,11 @@
             <select id="unidad"><option value="KG">KG</option><option value="UND">UND</option></select>
             <select id="tipo"><option value="ENTRADA">Entrada</option><option value="SALIDA">Salida</option></select>
             <button class="btn" onclick="guardar()">Procesar</button>
+            <button class="btn" style="background:#b91c1c" onclick="window.print()">🖨️ PDF</button>
         </div>
         <div class="card">
             <table>
-                <thead><tr><th>Producto</th><th>Categoría</th><th>Cantidad</th><th>Estado</th></tr></thead>
+                <thead><tr><th>Producto</th><th>Cat</th><th>Cantidad</th><th>Estado</th><th>Acción</th></tr></thead>
                 <tbody id="lista"></tbody>
             </table>
         </div>
@@ -34,29 +35,27 @@
         if (!sessionStorage.getItem('session')) window.location.href = 'login.html';
 
         function guardar() {
-            let p = { 
-                nombre: document.getElementById('nombre').value, 
-                cat: document.getElementById('cat').value, 
-                cant: parseFloat(document.getElementById('cant').value),
-                unidad: document.getElementById('unidad').value,
-                tipo: document.getElementById('tipo').value 
-            };
+            let p = { nombre: document.getElementById('nombre').value, cat: document.getElementById('cat').value, cant: parseFloat(document.getElementById('cant').value), unidad: document.getElementById('unidad').value, tipo: document.getElementById('tipo').value };
             let prods = JSON.parse(localStorage.getItem('prods') || '[]');
             if(p.tipo === 'SALIDA') p.cant = -p.cant;
-            
             let ex = prods.find(x => x.nombre === p.nombre);
             if(ex) ex.cant += p.cant; else prods.push(p);
-            
+            localStorage.setItem('prods', JSON.stringify(prods));
+            render();
+        }
+
+        function eliminar(index) {
+            let prods = JSON.parse(localStorage.getItem('prods') || '[]');
+            prods.splice(index, 1);
             localStorage.setItem('prods', JSON.stringify(prods));
             render();
         }
 
         function render() {
             let prods = JSON.parse(localStorage.getItem('prods') || '[]');
-            document.getElementById('lista').innerHTML = prods.map(p => {
-                // Lógica de Alarma: si es menor o igual a 5, marcar como BAJO STOCK
-                let alerta = (p.cant <= 5 && p.cant > 0) ? '<span style="color:red; font-weight:bold;">⚠️ BAJO STOCK</span>' : '✅ OK';
-                return `<tr><td>${p.nombre}</td><td>${p.cat}</td><td>${p.cant} ${p.unidad}</td><td>${alerta}</td></tr>`;
+            document.getElementById('lista').innerHTML = prods.map((p, index) => {
+                let alerta = (p.cant <= 5 && p.cant > 0) ? '<span style="color:red; font-weight:bold;">⚠️ BAJO</span>' : '✅ OK';
+                return `<tr><td>${p.nombre}</td><td>${p.cat}</td><td>${p.cant} ${p.unidad}</td><td>${alerta}</td><td><button class="btn" style="background:red; padding:5px;" onclick="eliminar(${index})">Eliminar</button></td></tr>`;
             }).join('');
         }
         render();
