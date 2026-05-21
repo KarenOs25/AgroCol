@@ -1,9 +1,32 @@
-body { font-family: sans-serif; margin: 0; display: flex; background: #f8fafc; min-height: 100vh; }
-.sidebar { width: 250px; background: #1e4d2b; color: white; padding: 20px; }
+/* Configuración del fondo para todo el sitio */
+body { 
+    font-family: sans-serif; 
+    margin: 0; 
+    display: flex; 
+    background-color: #f8fafc;
+    /* Logo de fondo fijo */
+    background-image: url('../AgroCol.png');
+    background-size: 300px; 
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+/* Para que el contenido sea legible sobre el logo */
+#app, main { 
+    flex-grow: 1; 
+    padding: 40px; 
+    background: rgba(255, 255, 255, 0.85); /* Transparencia para ver el logo */
+    min-height: 100vh;
+}
+
+.sidebar { width: 250px; background: #1e4d2b; color: white; padding: 20px; z-index: 10; }
 .nav-btn { display: block; padding: 15px; color: white; cursor: pointer; text-decoration: none; }
-main { flex-grow: 1; padding: 40px; }
 .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
 table { width: 100%; border-collapse: collapse; }
 th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
 .btn { background: #1e4d2b; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
-input, select { padding: 10px; margin: 5px; width: 150px; }
+.login-page { display: flex; justify-content: center; align-items: center; background-color: #f8fafc; }
+.login-box { width: 300px; text-align: center; }
+input, select { padding: 10px; margin: 5px 0; width: 90%; }
